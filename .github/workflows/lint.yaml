@@ -21,6 +21,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Run Linting & Tests
         run: |
+          python -m pip install --upgrade pip
+          pip install setuptools=="72.2.0"
           pip install -r dev/dev-requirements.txt
           flake8 elt_practice_2024/
           vulture elt_practice_2024/
