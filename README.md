@@ -45,3 +45,17 @@ Python:     3.12.5
 Path:       /usr/local
 Executable: /usr/local/bin/python3.12
 ```
+
+### Setting up prepare-commit-msg
+
+This repo adopts a practice of prepending the branch name to our commits to easily sift through changes by including a `prepare-commit-msg` hook in this repository.
+
+Follow these steps to set up the `prepare-commit-msg` hook on your local machine:
+
+1. Ensure you are in the root of this project repo
+
+2. Run the provided script to automatically install the `prepare-commit-msg hook`:
+
+```sh
+sh dev/setup_prepare_commit_msg_hook.sh
+```
