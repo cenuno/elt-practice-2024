@@ -1,0 +1,27 @@
+
+name: Lint
+
+on:
+  pull_request:
+    branches:
+    - main
+    - staging
+    - 'release/**'
+jobs:
+  lint_flake8_vulture_black_py3:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.5'
+          architecture: 'x64'
+          platform: 'linux'
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Run Linting & Tests
+        run: |
+          pip install -r dev/dev-requirements.txt
+          flake8 elt_practice_2024/
+          vulture elt_practice_2024/
+          black elt_practice_2024/ --check
