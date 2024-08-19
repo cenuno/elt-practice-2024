@@ -1,0 +1,21 @@
+#!/bin/sh
+
+#
+# Automatically add branch name to commit messages
+#
+# Define an array of branch names to skip if not provided
+if [ -z "$BRANCHES_TO_SKIP" ]; then
+  BRANCHES_TO_SKIP=(main staging)
+fi
+
+# Retrieve the current branch name
+BRANCH_NAME=$(git symbolic-ref --short HEAD)
+
+# Check if the current branch is excluded from adding branch name to commit message
+BRANCH_EXCLUDED=$(printf "%s\n" "${BRANCHES_TO_SKIP[@]}" | grep -c "^$BRANCH_NAME$")
+
+# Condition to add branch name to commit message if conditions are met
+if ! [[ $BRANCH_EXCLUDED -eq 1 ]] ; then
+  # Append Jira key to the commit message
+  echo "$BRANCH_NAME: $(cat "${1}")" > "$1"
+fi
