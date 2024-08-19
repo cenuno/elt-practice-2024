@@ -1,0 +1,16 @@
+services:
+  python:
+    container_name: python
+    build:
+      dockerfile: Dockerfile.python
+    image: python
+    restart: always
+    ports:
+      - 8050:8050
+    volumes:
+      - ./elt_practice_2024:/elt_practice_2024/
+      - ./tests:/tests/
+      - myapi_volume:/project_data/
+
+volumes:
+  myapi_volume:

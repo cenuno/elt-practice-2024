@@ -1,0 +1,25 @@
+# NOTE: base image is from Linux
+FROM python:3.12.5-slim
+
+# NOTE: install required software
+RUN apt-get update && \
+    apt-get install --no-install-suggests --no-install-recommends --yes wget zip unzip tree curl
+
+# NOTE: setup virtual environment
+ENV VIRTUAL_ENV="/opt/venv"
+RUN python3 -m venv $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
+# NOTE: install poetry via pip in venv
+#       see details here https://python-poetry.org/docs/#installing-manually
+RUN python3 -m pip install setuptools==72.2.0
+RUN python3 -m pip install poetry==1.8.0
+ENV PATH="$VENV_PATH/bin/poetry:$PATH"
+
+# NOTE: explicitly add the two poetry files to the relevant dir within container
+ADD pyproject.toml poetry.lock ./
+# NOTE: install packages via poetry
+RUN poetry install --compile --no-root --only main
+
+# NOTE: keep container alive
+CMD ["tail", "-f", "/dev/null"]
