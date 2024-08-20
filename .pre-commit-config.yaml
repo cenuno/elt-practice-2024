@@ -1,5 +1,9 @@
 ---
 repos:
+    - repo: https://github.com/adrienverge/yamllint.git
+      rev: v1.35.1
+      hooks:
+          - id: yamllint
     - repo: https://github.com/PyCQA/flake8
       rev: 7.1.1
       hooks:
@@ -22,5 +26,5 @@ repos:
       hooks:
           - id: poetry-check
           - id: poetry-lock
-          - id: poetry-export # this creates a requirements.txt used in next command
+          - id: poetry-export  # this creates a requirements.txt used in next command
           - id: poetry-install
