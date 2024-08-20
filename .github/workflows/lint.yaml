@@ -1,19 +1,18 @@
-
+---
 name: Lint
-
-on:
+on:  # yamllint disable-line rule:truthy
   pull_request:
     branches:
-    - main
-    - staging
-    - 'release/**'
+      - main
+      - staging
+      - 'release/**'
 jobs:
   lint_flake8_vulture_black_py3:
     runs-on: ubuntu-latest
     steps:
-      #----------------------------------------------
-      #       check-out repo and set-up python
-      #----------------------------------------------
+      # ----------------------------------------------
+      # ----- check-out repo and set-up python -----
+      # ----------------------------------------------
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup Python
@@ -21,18 +20,18 @@ jobs:
         with:
           python-version: '3.12.5'
           architecture: 'x64'
-      #----------------------------------------------
-      #  -----  load cached poetry installation  -----
-      #----------------------------------------------
+      # ----------------------------------------------
+      # -----  load cached poetry installation  -----
+      # ----------------------------------------------
       - name: Load cached Poetry installation
         id: cached-poetry
         uses: actions/cache@v4
         with:
           path: ~/.local  # the path depends on the OS
           key: poetry-0  # increment to reset cache
-      #----------------------------------------------
-      #  -----  install & configure poetry  -----
-      #----------------------------------------------
+      # ----------------------------------------------
+      # -----  install & configure poetry  -----
+      # ----------------------------------------------
       - name: Install Poetry
         if: steps.cached-poetry.outputs.cache-hit != 'true'
         uses: snok/install-poetry@v1
@@ -40,11 +39,10 @@ jobs:
           version: 1.8.0
           virtualenvs-create: true
           virtualenvs-in-project: false
-          virtualenvs-path: {cache-dir}/virtualenvs
           installer-parallel: true
       - name: Install dependencies via poetry
         run: |
-          poetry install poetry install --no-interaction --compile --no-root --only main
+          poetry install --no-interaction --compile --no-root --only main
       - name: Run linters
         run: |
           flake8 elt_practice_2024/
