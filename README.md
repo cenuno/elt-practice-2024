@@ -59,3 +59,15 @@ Follow these steps to set up the `prepare-commit-msg` hook on your local machine
 ```sh
 sh dev/setup_prepare_commit_msg_hook.sh
 ```
+
+### Pull requests will lint & test feature branches via GitHub Actions
+
+There exists a `.github/workflows/lint.yaml` file that ensures all changes from feature branches that wish to make it to `main` branch, along with `staging` branch or `release/**` branches, pass a series of linters and tests.
+
+See `.github/workflows/README.md` for more information about GitHub Actions.
+
+### Setting up pre-commit hooks
+
+> Git hook scripts are useful for identifying simple issues before submission to code review. We run our hooks on every commit to automatically point out issues in code such as missing semicolons, trailing whitespace, and debug statements. By pointing these issues out before code review, this allows a code reviewer to focus on the architecture of a change while not wasting time with trivial style nitpicks. - [Source: pre-commit.com](https://pre-commit.com/)
+
+Please follow the quick start [guide](https://pre-commit.com/#quick-start) to ensure that you can use the pre-commit hooks found in this repo.

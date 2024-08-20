@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "elt-practice-2024"
-version = "0.2.0"
+version = "0.2.1"
 description = "Practice repo for learning about ELT in 2024"
 authors = ["Cristian Nuno <cnuno2@illinois.edu>"]
 readme = "README.md"
@@ -22,3 +22,9 @@ yamllint = "1.35.1"
 [build-system]
 requires = ["poetry-core==1.8.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.vulture]
+paths = ["elt_practice_2024", "tests"]
+min_confidence = 70
+sort_by_size = true
+verbose = false
