@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "elt-practice-2024"
-version = "0.2.1"
+version = "0.2.2"
 description = "Practice repo for learning about ELT in 2024"
 authors = ["Cristian Nuno <cnuno2@illinois.edu>"]
 readme = "README.md"
@@ -16,7 +16,9 @@ dbt-core = "1.8.5"
 setuptools = "72.2.0"
 dbt-postgres = "1.8.2"
 psycopg2-binary = "2.9.9"
+pendulum = "3.0.0"
 yamllint = "1.35.1"
+pre-commit = "3.8.0"
 
 
 [build-system]
