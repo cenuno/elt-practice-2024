@@ -1565,6 +1565,24 @@ files = [
 ]
 
 [[package]]
+name = "yamllint"
+version = "1.35.1"
+description = "A linter for YAML files."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "yamllint-1.35.1-py3-none-any.whl", hash = "sha256:2e16e504bb129ff515b37823b472750b36b6de07963bd74b307341ef5ad8bdc3"},
+    {file = "yamllint-1.35.1.tar.gz", hash = "sha256:7a003809f88324fd2c877734f2d575ee7881dd9043360657cc8049c809eba6cd"},
+]
+
+[package.dependencies]
+pathspec = ">=0.5.3"
+pyyaml = "*"
+
+[package.extras]
+dev = ["doc8", "flake8", "flake8-import-order", "rstcheck[sphinx]", "sphinx"]
+
+[[package]]
 name = "zipp"
 version = "3.20.0"
 description = "Backport of pathlib-compatible object wrapper for zip files"
@@ -1582,4 +1600,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = "3.12.5"
-content-hash = "f462fb65ecddbd05b785ddf54f855390c5fdf324c48b1f5e66a527014daec052"
+content-hash = "0fbcc6a8526408836196eeb373ed95bb636f8156f3fd2f1ca740efe0a8d92007"
