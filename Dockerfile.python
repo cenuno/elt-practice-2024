@@ -19,7 +19,7 @@ ENV PATH="$VENV_PATH/bin/poetry:$PATH"
 # NOTE: explicitly add the two poetry files to the relevant dir within container
 ADD pyproject.toml poetry.lock ./
 # NOTE: install packages via poetry
-RUN poetry install --compile --no-root --only main
+RUN poetry install --no-interaction --compile --no-root --only main
 
 # NOTE: keep container alive
 CMD ["tail", "-f", "/dev/null"]
