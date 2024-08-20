@@ -45,6 +45,6 @@ jobs:
           poetry install --no-interaction --compile --no-root --only main
       - name: Run linters
         run: |
-          flake8 elt_practice_2024/
-          vulture elt_practice_2024/
-          black elt_practice_2024/ --check
+          poetry run flake8 elt_practice_2024/
+          poetry run vulture elt_practice_2024/
+          poetry run black elt_practice_2024/ --check
