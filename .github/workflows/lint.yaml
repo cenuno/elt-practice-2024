@@ -7,7 +7,7 @@ on:  # yamllint disable-line rule:truthy
       - staging
       - 'release/**'
 jobs:
-  lint_yaml_flake8_vulture_black_py3:
+  lint_dockerfile_yaml_flake8_vulture_black_py3:
     runs-on: ubuntu-latest
     steps:
       # ----------------------------------------------
@@ -45,7 +45,7 @@ jobs:
           poetry install --no-interaction --compile --no-root --only main
       - name: Run linters
         run: |
-          poetry run hadolint .
+          poetry run hadolint Dockerfile.python
           poetry run yamllint .
           poetry run flake8 .
           poetry run vulture .
