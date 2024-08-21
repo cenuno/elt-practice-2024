@@ -1,0 +1,5 @@
+---
+failure-threshold: info
+ignored:
+  - DL3008  # Pin versions in apt get install
+  - SC3031  # In POSIX sh, redirecting to/from globs is undefined.

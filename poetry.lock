@@ -476,6 +476,21 @@ pycodestyle = ">=2.12.0,<2.13.0"
 pyflakes = ">=3.2.0,<3.3.0"
 
 [[package]]
+name = "hadolint_py"
+version = "2.12.1b2"
+description = "Making hadolint pip installable (https://github.com/hadolint/hadolint)"
+optional = false
+python-versions = ">=3.7"
+files = []
+develop = false
+
+[package.source]
+type = "git"
+url = "https://github.com/AleksaC/hadolint-py.git"
+reference = "v2.12.1-beta"
+resolved_reference = "e6bacfdb8faaf759a089ab9d8e5c7e1697ff16d4"
+
+[[package]]
 name = "identify"
 version = "2.6.0"
 description = "File identification library for Python"
@@ -1880,4 +1895,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = "3.12.5"
-content-hash = "96d0b399c8d50b26f5fe5f9f1871c7b64fd7fbc66747f40e9b7be5da9e67d83c"
+content-hash = "8f2f49f4bf8b7c2a35ff9daeed4d02ae2ddeef95184a0bd26ea8215c2c3cc086"

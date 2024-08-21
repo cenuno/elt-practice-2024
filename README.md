@@ -71,3 +71,7 @@ See `.github/workflows/README.md` for more information about GitHub Actions.
 > Git hook scripts are useful for identifying simple issues before submission to code review. We run our hooks on every commit to automatically point out issues in code such as missing semicolons, trailing whitespace, and debug statements. By pointing these issues out before code review, this allows a code reviewer to focus on the architecture of a change while not wasting time with trivial style nitpicks. - [Source: pre-commit.com](https://pre-commit.com/)
 
 Please follow the quick start [guide](https://pre-commit.com/#quick-start) to ensure that you can use the pre-commit hooks found in this repo.
+
+#### Run `pre-commit` within Docker container
+
+The `python` Docker container comes with all Poetry packages installed for you, including the hooks used in `pre-commit`. Therefore, please consider running `pre-commit run --all-files` to ensure that your code passes lints and tests before submitting a PR.

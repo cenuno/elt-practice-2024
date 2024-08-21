@@ -1,9 +1,26 @@
 # NOTE: base image is from Linux
 FROM python:3.12.5-slim
 
+# Switch to superuser
+USER root
+
+# Create a custom user with UID 1234 and GID 1234
+RUN groupadd -g 1234 customgroup && \
+    useradd -m -u 1234 -g customgroup customuser
+RUN echo "'Inside Container:' && echo 'User: $(whoami) UID: $(id -u) GID: $(id -g)'"
+
 # NOTE: install required software
 RUN apt-get update && \
-    apt-get install --no-install-suggests --no-install-recommends --yes wget zip unzip tree curl
+    apt-get install --no-install-suggests --no-install-recommends --yes \
+    wget=1.21.* \
+    zip=3.* \
+    unzip=6.* \
+    tree=2.1.* \
+    curl=7.88.* \
+    git>=2.* \
+    && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # NOTE: setup virtual environment
 ENV VIRTUAL_ENV="/opt/venv"
@@ -12,14 +29,28 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # NOTE: install poetry via pip in venv
 #       see details here https://python-poetry.org/docs/#installing-manually
-RUN python3 -m pip install setuptools==72.2.0
-RUN python3 -m pip install poetry==1.8.0
+RUN python3 -m pip install setuptools==72.2.0 --no-cache-dir && \
+    python3 -m pip install poetry==1.8.0 --no-cache-dir
 ENV PATH="$VENV_PATH/bin/poetry:$PATH"
 
-# NOTE: explicitly add the two poetry files to the relevant dir within container
-ADD pyproject.toml poetry.lock ./
+# NOTE: set workdir to be the project dir
+WORKDIR /elt-practice-2024/
+
+# NOTE: explicitly add the two local poetry files to the project dir within container
+COPY pyproject.toml poetry.lock ./
+
 # NOTE: install packages via poetry
-RUN poetry install --no-interaction --compile --no-root --only main
+RUN poetry install --no-interaction --compile --no-root --only main && \
+    # NOTE: grant specific user ownership level access to project dir
+    chown -R customuser:customgroup /elt-practice-2024/
+
+# NOTE: switch to custom user
+USER customuser
+# NOTE: enable git and install pre-commit within container
+RUN echo "'Inside Container:' && echo 'User: $(whoami) UID: $(id -u) GID: $(id -g)'" && \
+    git init && \
+    git config --global --add safe.directory /elt-practice-2024 && \
+    pre-commit install
 
 # NOTE: keep container alive
 CMD ["tail", "-f", "/dev/null"]
