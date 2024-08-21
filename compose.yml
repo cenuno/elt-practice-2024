@@ -9,8 +9,7 @@ services:
     ports:
       - 8050:8050
     volumes:
-      - ./elt_practice_2024:/elt_practice_2024/
-      - ./tests:/tests/
+      - ./:/elt-practice-2024/
       - myapi_volume:/project_data/
 
 volumes:
