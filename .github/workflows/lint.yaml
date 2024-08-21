@@ -45,6 +45,7 @@ jobs:
           poetry install --no-interaction --compile --no-root --only main
       - name: Run linters
         run: |
+          poetry run hadolint .
           poetry run yamllint .
           poetry run flake8 .
           poetry run vulture .
