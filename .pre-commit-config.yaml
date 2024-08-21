@@ -1,9 +1,20 @@
 ---
 repos:
+    - repo: https://github.com/AleksaC/hadolint-py
+      rev: v2.12.1b3
+      hooks:
+          - id: hadolint
     - repo: https://github.com/adrienverge/yamllint.git
       rev: v1.35.1
       hooks:
           - id: yamllint
+    - repo: https://github.com/python-poetry/poetry
+      rev: '1.8.0'
+      hooks:
+          - id: poetry-check
+          - id: poetry-lock
+          - id: poetry-export  # this creates a requirements.txt used in next command
+          - id: poetry-install
     - repo: https://github.com/PyCQA/flake8
       rev: 7.1.1
       hooks:
@@ -21,10 +32,3 @@ repos:
       rev: 'v2.11'  # or any later Vulture version
       hooks:
           - id: vulture
-    - repo: https://github.com/python-poetry/poetry
-      rev: '1.8.0'
-      hooks:
-          - id: poetry-check
-          - id: poetry-lock
-          - id: poetry-export  # this creates a requirements.txt used in next command
-          - id: poetry-install

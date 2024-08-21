@@ -182,6 +182,7 @@ filelock==3.15.4 ; python_full_version == "3.12.5" \
 flake8==7.1.1 ; python_full_version == "3.12.5" \
     --hash=sha256:049d058491e228e03e67b390f311bbf88fce2dbaa8fa673e7aea87b7198b8d38 \
     --hash=sha256:597477df7860daa5aa0fdd84bf5208a043ab96b8e96ab708770ae0364dd03213
+hadolint-py @ git+https://github.com/AleksaC/hadolint-py.git@e6bacfdb8faaf759a089ab9d8e5c7e1697ff16d4 ; python_full_version == "3.12.5"
 identify==2.6.0 ; python_full_version == "3.12.5" \
     --hash=sha256:cb171c685bdc31bcc4c1734698736a7d5b6c8bf2e0c15117f4d469c8640ae5cf \
     --hash=sha256:e79ae4406387a9d300332b5fd366d8994f1525e8414984e1a59e058b2eda2dd0

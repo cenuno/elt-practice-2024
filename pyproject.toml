@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "elt-practice-2024"
-version = "0.2.2"
+version = "0.2.3"
 description = "Practice repo for learning about ELT in 2024"
 authors = ["Cristian Nuno <cnuno2@illinois.edu>"]
 readme = "README.md"
@@ -19,6 +19,7 @@ psycopg2-binary = "2.9.9"
 pendulum = "3.0.0"
 yamllint = "1.35.1"
 pre-commit = "3.8.0"
+hadolint-py = {git = "https://github.com/AleksaC/hadolint-py.git", rev = "v2.12.1-beta"}
 
 
 [build-system]
