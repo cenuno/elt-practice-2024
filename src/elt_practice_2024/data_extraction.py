@@ -44,3 +44,15 @@ logging.info("beginning data extraction")
 
 # NOTE: create specific loggers to help debug
 ingestion_logger = logging.getLogger(f"{APP_NAME}.data_extraction")
+
+
+def download_file(url, filename):
+    """Download a file and store it locally"""
+    import requests
+
+    # NOTE: make request
+    content = requests.get(url).content
+
+    # NOTE: create the file in write binary mode, because the data we get from net is in binary
+    with open(filename, "wb") as file:
+        file.write(content)
