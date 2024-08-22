@@ -1,5 +1,5 @@
 ---
-name: Lint
+name: Lint and Test
 on:  # yamllint disable-line rule:truthy
   pull_request:
     branches:
@@ -7,7 +7,7 @@ on:  # yamllint disable-line rule:truthy
       - staging
       - 'release/**'
 jobs:
-  lint_dockerfile_yaml_flake8_vulture_black_py3:
+  lint_and_test:
     runs-on: ubuntu-latest
     steps:
       # ----------------------------------------------
@@ -36,10 +36,12 @@ jobs:
         if: steps.cached-poetry.outputs.cache-hit != 'true'
         uses: snok/install-poetry@v1
         with:
-          version: 1.8.0
+          version: 1.8.3
           virtualenvs-create: true
           virtualenvs-in-project: false
           installer-parallel: true
+          # NOTE: export plugin is already explicitly installed
+          warnings-export: false
       - name: Install dependencies via poetry
         run: |
           poetry install --no-interaction --compile --no-root --only main
@@ -50,3 +52,6 @@ jobs:
           poetry run flake8 .
           poetry run vulture .
           poetry run black . --check
+      - name: Run tests
+        run: |
+          poetry run pytest .

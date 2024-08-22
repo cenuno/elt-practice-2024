@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "elt-practice-2024"
-version = "0.2.3"
+version = "0.3.0"
 description = "Practice repo for learning about ELT in 2024"
 authors = ["Cristian Nuno <cnuno2@illinois.edu>"]
 readme = "README.md"
@@ -20,10 +20,15 @@ pendulum = "3.0.0"
 yamllint = "1.35.1"
 pre-commit = "3.8.0"
 hadolint-py = {git = "https://github.com/AleksaC/hadolint-py.git", rev = "v2.12.1-beta"}
+pytest-cov = "5.0.0"
+poetry-plugin-export = "1.8.0"
+
+[tool.poetry.plugins."poetry.application.plugin"]
+export = "poetry_plugin_export.plugins:ExportApplicationPlugin"
 
 
 [build-system]
-requires = ["poetry-core==1.8.0"]
+requires = ["poetry-core==1.8.3"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.vulture]
@@ -33,9 +38,27 @@ sort_by_size = true
 verbose = false
 
 [tool.pytest.ini_options]
+testpaths = [
+    "tests"
+]
 pythonpath = [
   "src"
 ]
 addopts = [
-    "--ignore=tests/archive/"
+    "--ignore=tests/archive/",
+    "--cov=src",
+    "--cov-report=html",
+    "--cov-report=term",
+    "-rA"
 ]
+
+[tool.coverage.run]
+source = [
+    "src"
+]
+
+[tools.coverage.report]
+format = "markdown"
+
+[tool.coverage.html]
+directory = "coverage_html_report"
