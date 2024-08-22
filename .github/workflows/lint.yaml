@@ -40,8 +40,6 @@ jobs:
           virtualenvs-create: true
           virtualenvs-in-project: false
           installer-parallel: true
-          # NOTE: export plugin is already explicitly installed
-          warnings-export: false
       - name: Install dependencies via poetry
         run: |
           poetry install --no-interaction --compile --no-root --only main
