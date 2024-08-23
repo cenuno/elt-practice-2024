@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "elt-practice-2024"
-version = "0.3.0"
+version = "0.4.0"
 description = "Practice repo for learning about ELT in 2024"
 authors = ["Cristian Nuno <cnuno2@illinois.edu>"]
 readme = "README.md"
@@ -22,6 +22,9 @@ pre-commit = "3.8.0"
 hadolint-py = {git = "https://github.com/AleksaC/hadolint-py.git", rev = "v2.12.1-beta"}
 pytest-cov = "5.0.0"
 poetry-plugin-export = "1.8.0"
+mypy = "1.11.1"
+pip = "24.2"
+types-requests = "2.32.0.20240712"
 
 [tool.poetry.plugins."poetry.application.plugin"]
 export = "poetry_plugin_export.plugins:ExportApplicationPlugin"
@@ -62,3 +65,7 @@ format = "markdown"
 
 [tool.coverage.html]
 directory = "coverage_html_report"
+
+[[tool.mypy.overrides]]
+module = "elt_practice_2024.*"
+ignore_missing_imports = true

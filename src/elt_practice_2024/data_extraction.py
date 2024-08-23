@@ -30,8 +30,8 @@ logging.basicConfig(
     filemode=LOG_FILE_MODE,
     encoding=LOG_ENCODING,
     level=logging.DEBUG,
-    format=LOG_FORMATTER.get("format"),
-    datefmt=LOG_FORMATTER.get("datefmt"),
+    format=LOG_FORMATTER["format"],
+    datefmt=LOG_FORMATTER["datefmt"],
 )
 
 # NOTE: define a Handler which writes INFO messages or higher to the sys.stderr
@@ -46,8 +46,16 @@ logging.info("beginning data extraction")
 ingestion_logger = logging.getLogger(f"{APP_NAME}.data_extraction")
 
 
-def download_file(url, filename):
-    """Download a file and store it locally"""
+def download_file(url: str, filename: pathlib.Path) -> None:
+    """Download a file and store it locally
+
+    Args:
+        url (str): url that contains a file hosted on the cloud
+        filename (pathlib.Path): name of file
+
+    Returns:
+        None
+    """
     import requests
 
     # NOTE: make request

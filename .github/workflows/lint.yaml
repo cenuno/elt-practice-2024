@@ -46,10 +46,11 @@ jobs:
       - name: Run linters
         run: |
           poetry run hadolint Dockerfile.python
-          poetry run yamllint .
-          poetry run flake8 .
-          poetry run vulture .
-          poetry run black . --check
+          poetry run yamllint compose.yml .github/workflows/lint.yaml .hadolint.yaml .pre-commit-config.yaml
+          poetry run flake8 src/ tests/
+          poetry run vulture src/ tests/
+          poetry run black src/ tests/ --check
+          poetry run mypy src/ tests/
       - name: Run tests
         run: |
           poetry run pytest .
