@@ -184,3 +184,6 @@ logs/
 
 # ignore .DS_Store
 **/.DS_Store
+
+# ignore any files within a data dir
+data/

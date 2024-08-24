@@ -1,22 +1,17 @@
 #!/usr/bin/python3
 
 """
-Test the extraction of data from cloud and that it is stored locally
+Test download_file method
 """
 
 
-def test_download():
-    """Confirm that requests successfully download local copy of file"""
+def test_data_extraction():
     import os
     from pathlib import Path
 
-    from elt_practice_2024.data_extraction import download_file
-
-    png_url = "https://raw.githubusercontent.com/cenuno/learning_sql/master/visuals/small_multiples_example.png"
-    png_filename = Path(os.path.join("tests", "small_multiples_example.png"))
-
-    download_file(url=png_url, filename=png_filename)
-
-    assert png_filename.is_file()
-    # NOTE: remove file after test
-    png_filename.unlink()
+    data_dir = Path(
+        os.path.join(
+            "src", "elt_practice_2024", "data", "input", "Interview Sample Files"
+        )
+    )
+    assert sum(1 for _ in data_dir.iterdir()) == 6
