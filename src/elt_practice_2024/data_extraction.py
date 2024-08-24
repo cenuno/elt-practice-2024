@@ -14,12 +14,12 @@ import pendulum
 from utils import download_file
 
 # NOTE: file that contains data sources
-DATA_SOURCES_FILE = Path(os.path.join("src", "elt_practice_2024", "data_sources.json"))
+DATA_SOURCES_FILE = Path(os.path.join("elt_practice_2024", "data_sources.json"))
 
 # NOTE: create log file naming convention
 LOG_NOW_TIMESTAMP = pendulum.now().to_iso8601_string()
 LOG_FILENAME = os.path.join(
-    "src", "elt_practice_2024", "logs", f"{LOG_NOW_TIMESTAMP}_data_extraction.log"
+    "elt_practice_2024", "logs", f"{LOG_NOW_TIMESTAMP}_data_extraction.log"
 )
 Path(os.path.dirname(LOG_FILENAME)).mkdir(parents=True, exist_ok=True)
 LOG_ENCODING = "utf-8"
@@ -54,7 +54,7 @@ for client in data_sources.keys():
     for file_type in data_sources[client].keys():
         for file in data_sources[client][file_type]:
             excel_filename_path = Path(
-                os.path.join("src", "elt_practice_2024", file["excel_filename"])
+                os.path.join("elt_practice_2024", file["excel_filename"])
             )
             excel_filenames.append(excel_filename_path)
             logging.info(
