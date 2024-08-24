@@ -1,0 +1,44 @@
+{
+    "client_a": {
+        "membership_files": [
+            {
+                "url": "https://docs.google.com/spreadsheets/d/1M5mLusTWWRSb6b-f2F5CXMYL3og13VGY/edit?usp=drive_link&ouid=118220792771103713165&rtpof=true&sd=true",
+                "excel_filename": "data/input/Interview Sample Files/Patient-membership-clientA-202307.xlsx",
+                "csv_filename": "data/output/Patient-membership-clientA-202307.csv"
+            },
+            {
+                "url": "https://docs.google.com/spreadsheets/d/1tnzxGIHW07py_vRKjEPyWPe63LGiD4cn/edit?usp=drive_link&ouid=118220792771103713165&rtpof=true&sd=true",
+                "excel_filename": "data/input/Interview Sample Files/Patient-membership-clientA-202308.xlsx",
+                "csv_filename": "data/output/Patient-membership-clientA-202308.csv"
+            }
+        ],
+        "claim_files": [
+            {
+                "url": "https://docs.google.com/spreadsheets/d/1d6fbkrQj5S-tMvHHUVvzo735Ba9IczQy/edit?usp=drive_link&ouid=118220792771103713165&rtpof=true&sd=true",
+                "excel_filename": "data/input/Interview Sample Files/Patient-claim-clientA-202307.xlsx",
+                "csv_filename": "data/output/Patient-claim-clientA-202307.csv"
+            },
+            {
+                "url": "https://docs.google.com/spreadsheets/d/1dLMVKOUf0qDQJow0fE4pcEjVPuJ05C3-/edit?usp=drive_link&ouid=118220792771103713165&rtpof=true&sd=true",
+                "excel_filename": "data/input/Interview Sample Files/Patient-claim-clientA-202308.xlsx",
+                "csv_filename": "data/output/Patient-claim-clientA-202308.csv"
+            }
+        ]
+    },
+    "client_b": {
+        "membership_files": [
+            {
+                "url": "https://docs.google.com/spreadsheets/d/1hFmEqEj8sagU7ikM0RcCOJ6lHiMYrkds/edit?usp=sharing&ouid=118220792771103713165&rtpof=true&sd=true",
+                "excel_filename": "data/input/Interview Sample Files/Patient-membership-clientB-202307.xlsx",
+                "csv_filename": "data/output/Patient-membership-clientB-202307.csv"
+            }
+        ],
+        "claim_files": [
+            {
+                "url": "https://docs.google.com/spreadsheets/d/1Ow46GCMg3UJI3ZcHglJguHp34J1Ld6K_/edit?usp=sharing&ouid=118220792771103713165&rtpof=true&sd=true",
+                "excel_filename": "data/input/Interview Sample Files/Patient-claim-clientB-202307.xlsx",
+                "csv_filename": "data/output/Patient-claim-clientB-202307.csv"
+            }
+        ]
+    }
+}
