@@ -49,6 +49,7 @@ pythonpath = [
   "src"
 ]
 addopts = [
+    "--import-mode=importlib",
     "--ignore=tests/archive/",
     "--cov=src",
     "--cov-report=html",

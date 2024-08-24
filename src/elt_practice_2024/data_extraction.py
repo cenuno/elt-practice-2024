@@ -49,12 +49,14 @@ with open(DATA_SOURCES_FILE, mode="r", encoding="utf-8") as f:
     data_sources = json.load(f)
 
 logging.info("for each client, download the excel files from the cloud")
+excel_filenames = []
 for client in data_sources.keys():
     for file_type in data_sources[client].keys():
         for file in data_sources[client][file_type]:
             excel_filename_path = Path(
                 os.path.join("src", "elt_practice_2024", file["excel_filename"])
             )
+            excel_filenames.append(excel_filename_path)
             logging.info(
                 f"for client {client} and for file type {file_type}, "
                 "downloading url {file['url']} locally to {excel_filename_path}"

@@ -8,6 +8,7 @@ import logging
 import pathlib
 import requests
 
+
 def download_file(url: str, filename: pathlib.Path, overwrite: bool = False) -> None:
     """Download a file and store it locally
 
@@ -20,7 +21,9 @@ def download_file(url: str, filename: pathlib.Path, overwrite: bool = False) -> 
     """
 
     if filename.is_file() and not overwrite:
-        logging.warning("File already exists and overwrite is false so no need to download")
+        logging.warning(
+            "File already exists and overwrite is false so no need to download"
+        )
     elif not filename.is_file() or (filename.is_file() and overwrite):
         logging.info("file does not exist or, if it does, it will be overwritten")
         logging.info(f"make required dir(s) at {filename.parent}")
