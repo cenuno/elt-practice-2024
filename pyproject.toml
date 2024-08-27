@@ -36,22 +36,22 @@ requires = ["poetry-core==1.8.3"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.vulture]
-paths = ["src", "tests"]
+paths = ["src/elt_practice_2024", "src/tests"]
 min_confidence = 70
 sort_by_size = true
 verbose = false
 
 [tool.pytest.ini_options]
 testpaths = [
-    "tests"
+    "src/tests"
 ]
 pythonpath = [
-  "src"
+  "src/elt_practice_2024"
 ]
 addopts = [
     "--import-mode=importlib",
-    "--ignore=tests/archive/",
-    "--cov=src",
+    "--ignore=src/tests/archive/",
+    "--cov=src/elt_practice_2024",
     "--cov-report=html",
     "--cov-report=term",
     "-rA"
@@ -59,7 +59,7 @@ addopts = [
 
 [tool.coverage.run]
 source = [
-    "src"
+    "src/elt_practice_2024"
 ]
 
 [tools.coverage.report]

@@ -9,11 +9,12 @@ def test_data_file_count():
     import os
     from pathlib import Path
 
-    from elt_practice_2024.data_extraction import excel_filenames
+    from data_extraction import excel_filenames
 
     data_dir = Path(
         os.path.join(
             "src", "elt_practice_2024", "data", "input", "Interview Sample Files"
         )
     )
+    
     assert sum(1 for _ in data_dir.iterdir()) == len(excel_filenames)
