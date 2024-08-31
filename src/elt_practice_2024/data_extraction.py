@@ -13,13 +13,10 @@ import pendulum
 
 from utils import download_file
 
-# NOTE: file that contains data sources
-DATA_SOURCES_FILE = Path(os.path.join("src", "elt_practice_2024", "data_sources.json"))
-
 # NOTE: create log file naming convention
 LOG_NOW_TIMESTAMP = pendulum.now().to_iso8601_string()
 LOG_FILENAME = os.path.join(
-    "elt_practice_2024", "logs", f"{LOG_NOW_TIMESTAMP}_data_extraction.log"
+    "logs", f"{LOG_NOW_TIMESTAMP}_data_extraction.log"
 )
 Path(os.path.dirname(LOG_FILENAME)).mkdir(parents=True, exist_ok=True)
 LOG_ENCODING = "utf-8"

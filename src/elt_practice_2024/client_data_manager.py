@@ -1,0 +1,73 @@
+#!/usr/bin/python3
+
+"""
+Create a custom class to handle client data
+"""
+
+import json
+from typing import List
+
+
+class ClientDataManager:
+    def __init__(self, client_name: str, data_path: str):
+        """
+        Initialize the ClientDataManager with client name and data.
+
+        :param client_name: str - Name of the client
+        :param data_path: str - relative path to JSON-like data containing client information
+        """
+        # NOTE: open json and load as dict
+        with open(data_path, mode="r", encoding="utf-8") as f:
+            client_data_sources = json.load(f)
+        self.client_name = client_name.lower()
+        self.data = client_data_sources
+        self.client_data = self._get_client_data()
+
+    def _get_client_data(self):
+        """
+        Private method to get data for the specified client.
+
+        :return: dict - Data specific to the client, if exists
+        """
+        client_data = self.data.get(self.client_name)
+        if not client_data:
+            raise ValueError(f"No data available for client: {self.client_name}")
+        return client_data
+
+    def get_file_types(self) -> List[str]:
+        """
+        Retrieve the types of files available for the client.
+
+        :return: list - List of available file types
+        """
+        return list(self.client_data.keys())
+
+    def get_file_names(self, file_type: str) -> List[str]:
+        """
+        Retrieve the file names for the specified file type.
+
+        :param file_type: str - Type of files to retrieve (e.g., 'membership_files')
+        :return: list - List of file names for the specified type
+        """
+        files = self.client_data.get(file_type)
+        if not files:
+            raise ValueError(f"No files found for the type: {file_type}")
+        return list(files.keys())
+
+    def get_file_data(self, file_type: str, file_name: str) -> dict[str, str]:
+        """
+        Retrieve data about a specific file.
+
+        :param file_type: str - Type of files (e.g., 'membership_files')
+        :param file_name: str - Specific file name to retrieve data
+        :return: dict - Data about the file (URL, Excel filename, CSV filename)
+        """
+        files = self.client_data.get(file_type)
+        if not files:
+            raise ValueError(f"No files found for the type: {file_type}")
+
+        file_data = files.get(file_name)
+        if not file_data:
+            raise ValueError(f"No data found for the file: {file_name}")
+
+        return file_data

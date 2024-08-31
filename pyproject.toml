@@ -40,6 +40,7 @@ paths = ["src/elt_practice_2024", "src/tests"]
 min_confidence = 70
 sort_by_size = true
 verbose = false
+exclude = ["client_data_manager.py"]
 
 [tool.pytest.ini_options]
 testpaths = [
