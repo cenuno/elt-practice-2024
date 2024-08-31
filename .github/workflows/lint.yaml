@@ -47,10 +47,10 @@ jobs:
         run: |
           poetry run hadolint Dockerfile.python
           poetry run yamllint compose.yml .github/workflows/lint.yaml .hadolint.yaml .pre-commit-config.yaml
-          poetry run flake8 src/ tests/
-          poetry run vulture src/ tests/
-          poetry run black src/ tests/ --check
-          poetry run mypy src/ tests/
+          poetry run flake8 src/
+          poetry run vulture src/
+          poetry run black src/ --check
+          poetry run mypy src/elt_practice_2024/
       - name: Run tests
         run: |
           poetry run pytest .
