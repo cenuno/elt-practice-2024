@@ -3,10 +3,11 @@
 """
 Test download_file method
 """
+
 import os
 from pathlib import Path
 
-from utils import download_file
+from data_extraction_utils import download_file
 
 
 def test_download_overwrite_false():

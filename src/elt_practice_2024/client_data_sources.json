@@ -1,5 +1,5 @@
 {
-    "client_a": {
+    "clientA": {
         "membership_files": {
             "Patient-membership-clientA-202307": {
                 "url": "https://docs.google.com/spreadsheets/d/1M5mLusTWWRSb6b-f2F5CXMYL3og13VGY/edit?usp=drive_link&ouid=118220792771103713165&rtpof=true&sd=true",
@@ -25,7 +25,7 @@
             }
         }
     },
-    "client_b": {
+    "clientB": {
         "membership_files": {
             "Patient-membership-clientB-202307": {
                 "url": "https://docs.google.com/spreadsheets/d/1hFmEqEj8sagU7ikM0RcCOJ6lHiMYrkds/edit?usp=sharing&ouid=118220792771103713165&rtpof=true&sd=true",

@@ -11,13 +11,12 @@ from pathlib import Path
 
 import pendulum
 
-from utils import download_file
+from client_data_manager import ClientDataManager
+from data_extraction_utils import download_file
 
 # NOTE: create log file naming convention
 LOG_NOW_TIMESTAMP = pendulum.now().to_iso8601_string()
-LOG_FILENAME = os.path.join(
-    "logs", f"{LOG_NOW_TIMESTAMP}_data_extraction.log"
-)
+LOG_FILENAME = os.path.join("logs", f"{LOG_NOW_TIMESTAMP}_data_extraction.log")
 Path(os.path.dirname(LOG_FILENAME)).mkdir(parents=True, exist_ok=True)
 LOG_ENCODING = "utf-8"
 LOG_FILE_MODE = "w"
@@ -40,24 +39,27 @@ console.setFormatter(logging.Formatter(LOG_FORMATTER))
 # NOTE: add the handler to the root logger
 logging.getLogger("").addHandler(console)
 logging.info("beginning data extraction")
+# NOTE: store data source path
+CLIENT_DATA_SOURCES_PATH = Path(
+    os.path.join("src", "etl_practice_2024", "client_data_sources.json")
+)
 
-logging.info("import data sources config")
-with open(DATA_SOURCES_FILE, mode="r", encoding="utf-8") as f:
-    data_sources = json.load(f)
+# NOTE: store relevant clients in a list
+with open(CLIENT_DATA_SOURCES_PATH, mode="r", encoding="utf-8") as f:
+    client_names = list(json.load(f).keys())
 
 logging.info("for each client, download the excel files from the cloud")
-excel_filenames = []
-for client in data_sources.keys():
-    for file_type in data_sources[client].keys():
-        for file in data_sources[client][file_type]:
-            excel_filename_path = Path(
-                os.path.join("elt_practice_2024", file["excel_filename"])
-            )
-            excel_filenames.append(excel_filename_path)
+for client_name in client_names:
+    # NOTE: use custom class to handle metadata fetching
+    cdm = ClientDataManager(client_name=client_name, data_path=CLIENT_DATA_SOURCES_PATH)
+    for file_type in cdm.get_file_types():
+        for file_name in cdm.get_file_names(file_type=file_type):
+            file_data = cdm.get_file_data(file_type=file_type, file_name=file_name)
+            excel_filename_path = Path(file_data.get("excel_filename"))
             logging.info(
-                f"for client {client} and for file type {file_type}, "
-                "downloading url {file['url']} locally to {excel_filename_path}"
+                f"for client {cdm.client_name}, file type {file_type}, and file name {file_name}"
+                f"downloading url {file_data['url']} locally to {excel_filename_path}"
             )
             download_file(
-                url=file["url"], filename=excel_filename_path, overwrite=False
+                url=file_data.get("url"), filename=excel_filename_path, overwrite=False
             )

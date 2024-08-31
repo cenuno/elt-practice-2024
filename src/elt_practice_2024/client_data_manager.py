@@ -19,7 +19,7 @@ class ClientDataManager:
         # NOTE: open json and load as dict
         with open(data_path, mode="r", encoding="utf-8") as f:
             client_data_sources = json.load(f)
-        self.client_name = client_name.lower()
+        self.client_name = client_name
         self.data = client_data_sources
         self.client_data = self._get_client_data()
 
@@ -71,3 +71,25 @@ class ClientDataManager:
             raise ValueError(f"No data found for the file: {file_name}")
 
         return file_data
+
+    def get_all_filenames(self) -> tuple[List[str], List[str]]:
+        """
+        Retrieves all Excel and CSV filenames across all clients and all file types.
+
+        :return: tuple - list of excel filenames followed by csv filenames
+        """
+        excel_files = []
+        csv_files = []
+
+        # Iterate over all clients in the data
+        for client_data in self.data.values():
+            # Iterate over all file types within the client (e.g., membership_files, claim_files)
+            for files in client_data.values():
+                # Iterate over each file's data to collect Excel and CSV filenames
+                for file_info in files.values():
+                    if "excel_filename" in file_info:
+                        excel_files.append(file_info["excel_filename"])
+                    if "csv_filename" in file_info:
+                        csv_files.append(file_info["csv_filename"])
+
+        return excel_files, csv_files

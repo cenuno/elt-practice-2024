@@ -49,9 +49,11 @@ testpaths = [
 pythonpath = [
   "src/elt_practice_2024"
 ]
+norecursedirs = [
+    "src/tests/*"
+]
 addopts = [
     "--import-mode=importlib",
-    "--ignore=src/tests/archive/",
     "--cov=src/elt_practice_2024",
     "--cov-report=html",
     "--cov-report=term",

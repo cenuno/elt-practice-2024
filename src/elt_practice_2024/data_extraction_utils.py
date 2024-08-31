@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 """
-Store custom functions in one place
+Store utility functions and constants in one place
 """
 
 import logging
@@ -9,6 +9,7 @@ import pathlib
 import requests
 
 
+# NOTE: create custom functions
 def download_file(url: str, filename: pathlib.Path, overwrite: bool = False) -> None:
     """Download a file and store it locally
 
