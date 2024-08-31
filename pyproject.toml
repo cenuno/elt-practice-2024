@@ -72,5 +72,8 @@ format = "markdown"
 directory = "coverage_html_report"
 
 [[tool.mypy.overrides]]
-module = "elt_practice_2024.*"
+module = [
+    "client_data_manager.*",
+    "data_extraction_utils.*"
+]
 ignore_missing_imports = true
