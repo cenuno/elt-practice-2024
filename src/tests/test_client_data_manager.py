@@ -25,9 +25,7 @@ def test_existing_client():
 
 def test_nonexisting_client():
     with pytest.raises(ValueError):
-        ClientDataManager(
-            client_name="clientZ", data_path=CLIENT_DATA_SOURCES_PATH
-        )
+        ClientDataManager(client_name="clientZ", data_path=CLIENT_DATA_SOURCES_PATH)
 
 
 def test_get_file_types():
