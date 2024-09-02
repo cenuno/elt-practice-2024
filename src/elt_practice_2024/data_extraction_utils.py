@@ -4,6 +4,7 @@
 Store utility functions and constants in one place
 """
 
+import csv
 import logging
 import pathlib
 import requests
@@ -73,10 +74,10 @@ def read_in_excel_and_generate_csv(file_data: dict) -> None:
     :param file_data: dic - file data dictionary from ClientDataManager class
     :return: None
     """
-    logging.info(f"read in the first sheet from {excel_path}")
+    logging.info(f"read in the first sheet from {file_data.get('excel_filename')}")
     # NOTE: hard code to read from first sheet and ensure data types are all strings
     df_excel_first_sheet = pd.read_excel(
-        io=excel_path,
+        io=file_data.get("excel_filename"),
         sheet_name=0,
         dtype=str,
         engine="openpyxl",
@@ -91,7 +92,7 @@ def read_in_excel_and_generate_csv(file_data: dict) -> None:
     logging.info("determine which columns need non printable characters removed")
     for col in df_excel_first_sheet.columns:
         logging.info("remove non printable chars")
-        df_excel_first_sheet[col] = _remove_non_printable_chars(
+        df_excel_first_sheet[col] = remove_non_printable_chars(
             df_excel_first_sheet[col]
         )
 
@@ -102,11 +103,14 @@ def read_in_excel_and_generate_csv(file_data: dict) -> None:
     df_excel_first_sheet["internal_created_on"] = pendulum.now(tz=TIMEZONE)
 
     logging.info(
-        f"export as csv with an index to {csv_path} and "
+        f"export as csv with an index to {file_data.get('csv_filename')} and "
         "each cell is separated via a vertical pipe delimiter"
     )
     df_excel_first_sheet.to_csv(
-        path_or_buf=csv_path, index=False, quoting=csv.QUOTE_NONE, sep="|"
+        path_or_buf=file_data.get("excel_filename"),
+        index=False,
+        quoting=csv.QUOTE_NONE,
+        sep="|",
     )
 
     return None
