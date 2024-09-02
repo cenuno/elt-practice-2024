@@ -78,7 +78,15 @@ def test_get_file_data():
     for file in file_names:
         claim_file_data = cdm.get_file_data(file_type="claim_files", file_name=file)
         relevant_keys = [
-            key in ["url", "excel_filename", "csv_filename"]
+            key
+            in [
+                "url",
+                "excel_filename",
+                "csv_filename",
+                "client_name",
+                "file_type",
+                "file_name",
+            ]
             for key in claim_file_data.keys()
         ]
         file_data.append(all(relevant_keys))
@@ -108,7 +116,9 @@ def test_get_all_filenames():
     cdm = ClientDataManager(client_name="clientA", data_path=CLIENT_DATA_SOURCES_PATH)
     excel_filenames, csv_filenames = cdm.get_all_filenames()
     check_excel_filenames = [
-        ".xlsx" in excel_filename for excel_filename in excel_filenames
+        ".xlsx" in str(excel_filename) for excel_filename in excel_filenames
     ]
-    check_csv_filenames = [".csv" in csv_filename for csv_filename in csv_filenames]
+    check_csv_filenames = [
+        ".csv" in str(csv_filename) for csv_filename in csv_filenames
+    ]
     assert all(check_excel_filenames) and all(check_csv_filenames)

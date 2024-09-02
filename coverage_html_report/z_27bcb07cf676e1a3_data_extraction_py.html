@@ -54,9 +54,9 @@
             </div>
         </aside>
         <h2>
-            <span class="text">31 statements &nbsp;</span>
+            <span class="text">30 statements &nbsp;</span>
             <button type="button" class="run button_toggle_run" value="run" data-shortcut="r" title="Toggle lines run">0<span class="text"> run</span></button>
-            <button type="button" class="mis show_mis button_toggle_mis" value="mis" data-shortcut="m" title="Toggle lines missing">31<span class="text"> missing</span></button>
+            <button type="button" class="mis show_mis button_toggle_mis" value="mis" data-shortcut="m" title="Toggle lines missing">30<span class="text"> missing</span></button>
             <button type="button" class="exc show_exc button_toggle_exc" value="exc" data-shortcut="x" title="Toggle lines excluded">0<span class="text"> excluded</span></button>
         </h2>
         <p class="text">
@@ -65,7 +65,7 @@
             <a id="nextFileLink" class="nav" href="z_27bcb07cf676e1a3_data_extraction_utils_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.6.1">coverage.py v7.6.1</a>,
-            created at 2024-08-31 17:26 -0700
+            created at 2024-09-01 18:47 -0700
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -137,14 +137,15 @@
     <p class="mis show_mis"><span class="n"><a id="t55" href="#t55">55</a></span><span class="t">    <span class="key">for</span> <span class="nam">file_type</span> <span class="key">in</span> <span class="nam">cdm</span><span class="op">.</span><span class="nam">get_file_types</span><span class="op">(</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="mis show_mis"><span class="n"><a id="t56" href="#t56">56</a></span><span class="t">        <span class="key">for</span> <span class="nam">file_name</span> <span class="key">in</span> <span class="nam">cdm</span><span class="op">.</span><span class="nam">get_file_names</span><span class="op">(</span><span class="nam">file_type</span><span class="op">=</span><span class="nam">file_type</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="mis show_mis"><span class="n"><a id="t57" href="#t57">57</a></span><span class="t">            <span class="nam">file_data</span> <span class="op">=</span> <span class="nam">cdm</span><span class="op">.</span><span class="nam">get_file_data</span><span class="op">(</span><span class="nam">file_type</span><span class="op">=</span><span class="nam">file_type</span><span class="op">,</span> <span class="nam">file_name</span><span class="op">=</span><span class="nam">file_name</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t58" href="#t58">58</a></span><span class="t">            <span class="nam">excel_filename_path</span> <span class="op">=</span> <span class="nam">Path</span><span class="op">(</span><span class="nam">file_data</span><span class="op">.</span><span class="nam">get</span><span class="op">(</span><span class="str">"excel_filename"</span><span class="op">)</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t59" href="#t59">59</a></span><span class="t">            <span class="nam">logging</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t60" href="#t60">60</a></span><span class="t">                <span class="fst">f"</span><span class="fst">for client </span><span class="op">{</span><span class="nam">cdm</span><span class="op">.</span><span class="nam">client_name</span><span class="op">}</span><span class="fst">, file type </span><span class="op">{</span><span class="nam">file_type</span><span class="op">}</span><span class="fst">, and file name </span><span class="op">{</span><span class="nam">file_name</span><span class="op">}</span><span class="fst">"</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t61" href="#t61">61</a></span><span class="t">                <span class="fst">f"</span><span class="fst">downloading url </span><span class="op">{</span><span class="nam">file_data</span><span class="op">[</span><span class="str">'url'</span><span class="op">]</span><span class="op">}</span><span class="fst"> locally to </span><span class="op">{</span><span class="nam">excel_filename_path</span><span class="op">}</span><span class="fst">"</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t62" href="#t62">62</a></span><span class="t">            <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="mis show_mis"><span class="n"><a id="t63" href="#t63">63</a></span><span class="t">            <span class="nam">download_file</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t64" href="#t64">64</a></span><span class="t">                <span class="nam">url</span><span class="op">=</span><span class="nam">file_data</span><span class="op">.</span><span class="nam">get</span><span class="op">(</span><span class="str">"url"</span><span class="op">)</span><span class="op">,</span> <span class="nam">filename</span><span class="op">=</span><span class="nam">excel_filename_path</span><span class="op">,</span> <span class="nam">overwrite</span><span class="op">=</span><span class="key">False</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t65" href="#t65">65</a></span><span class="t">            <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="mis show_mis"><span class="n"><a id="t58" href="#t58">58</a></span><span class="t">            <span class="nam">logging</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t59" href="#t59">59</a></span><span class="t">                <span class="fst">f"</span><span class="fst">for client </span><span class="op">{</span><span class="nam">file_data</span><span class="op">.</span><span class="nam">get</span><span class="op">(</span><span class="str">'client_name'</span><span class="op">)</span><span class="op">}</span><span class="fst">, file type </span><span class="op">{</span><span class="nam">file_type</span><span class="op">}</span><span class="fst">, and file name </span><span class="op">{</span><span class="nam">file_name</span><span class="op">}</span><span class="fst">"</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t60" href="#t60">60</a></span><span class="t">                <span class="fst">f"</span><span class="fst">downloading url </span><span class="op">{</span><span class="nam">file_data</span><span class="op">.</span><span class="nam">get</span><span class="op">(</span><span class="str">'url'</span><span class="op">)</span><span class="op">}</span><span class="fst"> locally to </span><span class="op">{</span><span class="nam">file_data</span><span class="op">.</span><span class="nam">get</span><span class="op">(</span><span class="str">'excel_filename'</span><span class="op">)</span><span class="op">}</span><span class="fst">"</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t61" href="#t61">61</a></span><span class="t">            <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="mis show_mis"><span class="n"><a id="t62" href="#t62">62</a></span><span class="t">            <span class="nam">download_file</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t63" href="#t63">63</a></span><span class="t">                <span class="nam">url</span><span class="op">=</span><span class="nam">file_data</span><span class="op">.</span><span class="nam">get</span><span class="op">(</span><span class="str">"url"</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t64" href="#t64">64</a></span><span class="t">                <span class="nam">filename</span><span class="op">=</span><span class="nam">file_data</span><span class="op">.</span><span class="nam">get</span><span class="op">(</span><span class="str">"excel_filename"</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t65" href="#t65">65</a></span><span class="t">                <span class="nam">overwrite</span><span class="op">=</span><span class="key">False</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t66" href="#t66">66</a></span><span class="t">            <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
 </main>
 <footer>
     <div class="content">
@@ -154,7 +155,7 @@
             <a class="nav" href="z_27bcb07cf676e1a3_data_extraction_utils_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.6.1">coverage.py v7.6.1</a>,
-            created at 2024-08-31 17:26 -0700
+            created at 2024-09-01 18:47 -0700
         </p>
     </div>
 </footer>

@@ -52,7 +52,4 @@ def test_remove_non_printable_chars():
     test_series = pd.Series(["a", "b", "c", "\x00", "\x07", "\x08", "\x1b"])
     ideal_series = pd.Series(["a", "b", "c", "", "", "", ""])
     output_series = remove_non_printable_chars(series=test_series)
-    print(test_series)
-    print(ideal_series)
-    print(output_series)
     assert output_series.equals(ideal_series)

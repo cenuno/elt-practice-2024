@@ -5,6 +5,7 @@ Create a custom class to handle client data
 """
 
 import json
+from pathlib import Path
 from typing import List
 
 
@@ -70,9 +71,18 @@ class ClientDataManager:
         if not file_data:
             raise ValueError(f"No data found for the file: {file_name}")
 
+        # NOTE: add in keys
+        file_data["client_name"] = self.client_name
+        file_data["file_type"] = file_type
+        file_data["file_name"] = file_name
+
+        # NOTE: change from str to Path for filepaths
+        file_data["excel_filename"] = Path(file_data["excel_filename"])
+        file_data["csv_filename"] = Path(file_data["csv_filename"])
+
         return file_data
 
-    def get_all_filenames(self) -> tuple[List[str], List[str]]:
+    def get_all_filenames(self) -> tuple[List[Path], List[Path]]:
         """
         Retrieves all Excel and CSV filenames across all clients and all file types.
 
@@ -88,8 +98,8 @@ class ClientDataManager:
                 # Iterate over each file's data to collect Excel and CSV filenames
                 for file_info in files.values():
                     if "excel_filename" in file_info:
-                        excel_files.append(file_info["excel_filename"])
+                        excel_files.append(Path(file_info["excel_filename"]))
                     if "csv_filename" in file_info:
-                        csv_files.append(file_info["csv_filename"])
+                        csv_files.append(Path(file_info["csv_filename"]))
 
         return excel_files, csv_files

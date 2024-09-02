@@ -55,11 +55,12 @@ for client_name in client_names:
     for file_type in cdm.get_file_types():
         for file_name in cdm.get_file_names(file_type=file_type):
             file_data = cdm.get_file_data(file_type=file_type, file_name=file_name)
-            excel_filename_path = Path(file_data.get("excel_filename"))
             logging.info(
-                f"for client {cdm.client_name}, file type {file_type}, and file name {file_name}"
-                f"downloading url {file_data['url']} locally to {excel_filename_path}"
+                f"for client {file_data.get('client_name')}, file type {file_type}, and file name {file_name}"
+                f"downloading url {file_data.get('url')} locally to {file_data.get('excel_filename')}"
             )
             download_file(
-                url=file_data.get("url"), filename=excel_filename_path, overwrite=False
+                url=file_data.get("url"),
+                filename=file_data.get("excel_filename"),
+                overwrite=False,
             )
