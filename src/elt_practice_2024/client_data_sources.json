@@ -1,44 +1,360 @@
-{
-    "clientA": {
-        "membership_files": {
-            "Patient-membership-clientA-202307": {
-                "url": "https://docs.google.com/spreadsheets/d/1M5mLusTWWRSb6b-f2F5CXMYL3og13VGY/edit?usp=drive_link&ouid=118220792771103713165&rtpof=true&sd=true",
-                "excel_filename": "data/input/Interview Sample Files/Patient-membership-clientA-202307.xlsx",
-                "csv_filename": "data/output/Patient-membership-clientA-202307.csv"
+[
+    {
+        "client_name": "acme",
+        "client_id": 101,
+        "file_types": {
+            "membership": {
+                "files": [
+                    {
+                        "external_filename": "raw_acme_patient_membership_202307.csv",
+                        "external_url": "https://docs.google.com/spreadsheets/d/1M5mLusTWWRSb6b-f2F5CXMYL3og13VGY/export?format=csv&id=1M5mLusTWWRSb6b-f2F5CXMYL3og13VGY&gid=666478925",
+                        "internal_filename": "processed_acme_patient_membership_202307.csv"
+                    },
+                    {
+                        "external_filename": "raw_acme_patient_membership_202308.csv",
+                        "external_url": "https://docs.google.com/spreadsheets/d/1tnzxGIHW07py_vRKjEPyWPe63LGiD4cn/export?format=csv&id=1tnzxGIHW07py_vRKjEPyWPe63LGiD4cn&gid=1810065359",
+                        "internal_filename": "processed_acme_patient_membership_202308.csv"
+                    }
+                ],
+                "metadata": {
+                    "columns": [
+                        {
+                            "position": 0,
+                            "external_name": "member id",
+                            "processed_name": "member_id",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 1,
+                            "external_name": "member first name",
+                            "processed_name": "member_first_name",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 2,
+                            "external_name": "member middle name",
+                            "processed_name": "member_middle_name",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 3,
+                            "external_name": "member last name",
+                            "processed_name": "member_last_name",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 4,
+                            "external_name": "gender",
+                            "processed_name": "gender",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 5,
+                            "external_name": "date of birth",
+                            "processed_name": "date_of_birth",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 6,
+                            "external_name": "address",
+                            "processed_name": "address",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 7,
+                            "external_name": "city",
+                            "processed_name": "city",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 8,
+                            "external_name": "state",
+                            "processed_name": "state",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 9,
+                            "external_name": "zip",
+                            "processed_name": "zip",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 10,
+                            "external_name": "phone number",
+                            "processed_name": "phone_number",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 11,
+                            "external_name": "membership end date",
+                            "processed_name": "membership_end_date",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 12,
+                            "external_name": "ethnicity",
+                            "processed_name": "ethnicity",
+                            "data_type": "VARCHAR(5000)"
+                        }
+                    ],
+                    "schema": "public",
+                    "table_name": "raw_client_a_membership"
+                }
             },
-            "Patient-membership-clientA-202308": {
-                "url": "https://docs.google.com/spreadsheets/d/1tnzxGIHW07py_vRKjEPyWPe63LGiD4cn/edit?usp=drive_link&ouid=118220792771103713165&rtpof=true&sd=true",
-                "excel_filename": "data/input/Interview Sample Files/Patient-membership-clientA-202308.xlsx",
-                "csv_filename": "data/output/Patient-membership-clientA-202308.csv"
+            "claim": {
+            "files": [
+                {
+                    "external_filename": "raw_acme_patient_claim_202307.csv",
+                    "external_url": "https://docs.google.com/spreadsheets/d/1d6fbkrQj5S-tMvHHUVvzo735Ba9IczQy/export?format=csv&id=1d6fbkrQj5S-tMvHHUVvzo735Ba9IczQy&gid=1035524782",
+                    "internal_filename": "processed_acme_patient_claim_202307.csv"
+                },
+                {
+                    "external_filename": "raw_acme_patient_claim_202308.csv",
+                    "external_url": "https://docs.google.com/spreadsheets/d/1dLMVKOUf0qDQJow0fE4pcEjVPuJ05C3-/export?format=csv&id=1dLMVKOUf0qDQJow0fE4pcEjVPuJ05C3-&gid=1888768685",
+                    "internal_filename": "processed_acme_patient_claim_202308.csv"
+                }
+            ],
+            "metadata": {
+                "columns": [
+                    {
+                        "position": 0,
+                        "external_name": "claim category",
+                        "processed_name": "claim_category",
+                        "data_type": "VARCHAR(5000)"
+                    },
+                    {
+                        "position": 1,
+                        "external_name": "member id",
+                        "processed_name": "member_id",
+                        "data_type": "VARCHAR(5000)"
+                    },
+                    {
+                        "position": 2,
+                        "external_name": "claim number",
+                        "processed_name": "claim_number",
+                        "data_type": "VARCHAR(5000)"
+                    },
+                    {
+                        "position": 3,
+                        "external_name": "date received",
+                        "processed_name": "date_received",
+                        "data_type": "VARCHAR(5000)"
+                    },
+                    {
+                        "position": 4,
+                        "external_name": "vendor",
+                        "processed_name": "vendor",
+                        "data_type": "VARCHAR(5000)"
+                    },
+                    {
+                        "position": 5,
+                        "external_name": "hospital service",
+                        "processed_name": "hospital_service",
+                        "data_type": "VARCHAR(5000)"
+                    },
+                    {
+                        "position": 6,
+                        "external_name": "coding system",
+                        "processed_name": "coding_system",
+                        "data_type": "VARCHAR(5000)"
+                    },
+                    {
+                        "position": 7,
+                        "external_name": "code",
+                        "processed_name": "code",
+                        "data_type": "VARCHAR(5000)"
+                    },
+                    {
+                        "position": 8,
+                        "external_name": "primary diagnosis",
+                        "processed_name": "primary_diagnosis",
+                        "data_type": "VARCHAR(5000)"
+                    },
+                    {
+                        "position": 9,
+                        "external_name": "total billed",
+                        "processed_name": "total_billed",
+                        "data_type": "VARCHAR(5000)"
+                    },
+                    {
+                        "position": 10,
+                        "external_name": "processing status",
+                        "processed_name": "processing_status",
+                        "data_type": "VARCHAR(5000)"
+                    }
+                ],
+                "schema": "public",
+                "table_name": "raw_client_a_claim"
             }
-        },
-        "claim_files": {
-            "Patient-claim-clientA-202307": {
-                "url": "https://docs.google.com/spreadsheets/d/1d6fbkrQj5S-tMvHHUVvzo735Ba9IczQy/edit?usp=drive_link&ouid=118220792771103713165&rtpof=true&sd=true",
-                "excel_filename": "data/input/Interview Sample Files/Patient-claim-clientA-202307.xlsx",
-                "csv_filename": "data/output/Patient-claim-clientA-202307.csv"
-            },
-            "Patient-claim-clientA-202308": {
-                "url": "https://docs.google.com/spreadsheets/d/1dLMVKOUf0qDQJow0fE4pcEjVPuJ05C3-/edit?usp=drive_link&ouid=118220792771103713165&rtpof=true&sd=true",
-                "excel_filename": "data/input/Interview Sample Files/Patient-claim-clientA-202308.xlsx",
-                "csv_filename": "data/output/Patient-claim-clientA-202308.csv"
             }
         }
     },
-    "clientB": {
-        "membership_files": {
-            "Patient-membership-clientB-202307": {
-                "url": "https://docs.google.com/spreadsheets/d/1hFmEqEj8sagU7ikM0RcCOJ6lHiMYrkds/edit?usp=sharing&ouid=118220792771103713165&rtpof=true&sd=true",
-                "excel_filename": "data/input/Interview Sample Files/Patient-membership-clientB-202307.xlsx",
-                "csv_filename": "data/output/Patient-membership-clientB-202307.csv"
-            }
-        },
-        "claim_files": {
-            "Patient-claim-clientB-202307": {
-                "url": "https://docs.google.com/spreadsheets/d/1Ow46GCMg3UJI3ZcHglJguHp34J1Ld6K_/edit?usp=sharing&ouid=118220792771103713165&rtpof=true&sd=true",
-                "excel_filename": "data/input/Interview Sample Files/Patient-claim-clientB-202307.xlsx",
-                "csv_filename": "data/output/Patient-claim-clientB-202307.csv"
+    {
+        "client_name": "hooli",
+        "client_id": 102,
+        "file_types": {
+            "membership": {
+                "files": [
+                    {
+                        "external_filename": "raw_hooli_patient_membership_202307.csv",
+                        "external_url": "https://docs.google.com/spreadsheets/d/1hFmEqEj8sagU7ikM0RcCOJ6lHiMYrkds/export?format=csv&id=1hFmEqEj8sagU7ikM0RcCOJ6lHiMYrkds&gid=633448138",
+                        "internal_filename": "processed_hooli_patient_membership_202307.csv"
+                    }
+                ],
+                "metadata": {
+                    "columns": [
+                        {
+                            "position": 0,
+                            "external_name": "Elig_Dt",
+                            "processed_name": "eligibility_date",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 1,
+                            "external_name": "mem_id",
+                            "processed_name": "member_id",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 2,
+                            "external_name": "Member_Fullname",
+                            "processed_name": "member_fullname",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 3,
+                            "external_name": "Dob",
+                            "processed_name": "dob",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 4,
+                            "external_name": "Age_In_Mths_No",
+                            "processed_name": "age_in_mths_no",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 5,
+                            "external_name": "Gender",
+                            "processed_name": "gender",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 6,
+                            "external_name": "Member_Address",
+                            "processed_name": "member_address_1",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 7,
+                            "external_name": "Member_Address_2",
+                            "processed_name": "member_address_2",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 8,
+                            "external_name": "Member_City",
+                            "processed_name": "member_city",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 9,
+                            "external_name": "Member_State",
+                            "processed_name": "member_state",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 10,
+                            "external_name": "Member_Zip",
+                            "processed_name": "member_zip",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 11,
+                            "external_name": "Member_Phone",
+                            "processed_name": "member_phone",
+                            "data_type": "VARCHAR(5000)"
+                        }
+                    ],
+                    "schema": "public",
+                    "table_name": "raw_client_a_membership"
+                }
+            },
+            "claim": {
+                "files": [
+                    {
+                        "external_filename": "raw_hooli_patient_claim_202307.csv",
+                        "external_url": "https://docs.google.com/spreadsheets/d/1Ow46GCMg3UJI3ZcHglJguHp34J1Ld6K_/export?format=csv&id=1Ow46GCMg3UJI3ZcHglJguHp34J1Ld6K_&gid=503948408",
+                        "internal_filename": "processed_hooli_patient_claim_202307.csv"
+                    }
+                ],
+                "metadata": {
+                    "columns": [
+                        {
+                            "position": 0,
+                            "external_name": "claim_category",
+                            "processed_name": "claim_category",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 1,
+                            "external_name": "memb_id",
+                            "processed_name": "member_id",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 2,
+                            "external_name": "claim_number",
+                            "processed_name": "claim_number",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 3,
+                            "external_name": "received_date",
+                            "processed_name": "received_date",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 4,
+                            "external_name": "hospital_service",
+                            "processed_name": "hospital_service",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 5,
+                            "external_name": "code_system",
+                            "processed_name": "code_system",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 6,
+                            "external_name": "code",
+                            "processed_name": "code",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 7,
+                            "external_name": "diagnosis_type",
+                            "processed_name": "diagnosis_type",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 8,
+                            "external_name": "cost_total",
+                            "processed_name": "cost_total",
+                            "data_type": "VARCHAR(5000)"
+                        },
+                        {
+                            "position": 9,
+                            "external_name": "status",
+                            "processed_name": "status",
+                            "data_type": "VARCHAR(5000)"
+                        }
+                    ],
+                    "schema": "public",
+                    "table_name": "raw_client_b_claim"
+                }
             }
         }
     }
-}
+]

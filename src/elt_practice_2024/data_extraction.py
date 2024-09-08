@@ -4,6 +4,7 @@
 Extract data from cloud and store it locally
 """
 
+import csv
 import json
 import logging
 import os
@@ -11,8 +12,7 @@ from pathlib import Path
 
 import pendulum
 
-from client_data_manager import ClientDataManager
-from data_extraction_utils import download_file
+from data_extraction_utils import download_file, process_csv
 
 # NOTE: create log file naming convention
 LOG_NOW_TIMESTAMP = pendulum.now().to_iso8601_string()
@@ -39,28 +39,77 @@ console.setFormatter(logging.Formatter(LOG_FORMATTER))
 # NOTE: add the handler to the root logger
 logging.getLogger("").addHandler(console)
 logging.info("beginning data extraction")
+
 # NOTE: store data source path
-CLIENT_DATA_SOURCES_PATH = Path(
-    os.path.join("src", "etl_practice_2024", "client_data_sources.json")
-)
+CLIENT_DATA_SOURCES_PATH = Path("client_data_sources.json")
+
+# NOTE: store relevant client names
+RELEVANT_CLIENT_NAMES = ["acme", "hooli"]
+
+# NOTE: store relevant file types
+RELEVANT_FILE_TYPES = ["membership", "claim"]
+
+# NOTE: store relevant CSV options
+CSV_SEP = "|"
+CSV_QUOTING = csv.QUOTE_NONE
+
+# NOTE: store data dir
+INPUT_DIR = os.path.join("data", "input")
+OUTPUT_DIR = os.path.join("data", "output")
 
 # NOTE: store relevant clients in a list
 with open(CLIENT_DATA_SOURCES_PATH, mode="r", encoding="utf-8") as f:
-    client_names = list(json.load(f).keys())
+    client_data_sources = json.load(f)
+
 
 logging.info("for each client, download the excel files from the cloud")
-for client_name in client_names:
-    # NOTE: use custom class to handle metadata fetching
-    cdm = ClientDataManager(client_name=client_name, data_path=CLIENT_DATA_SOURCES_PATH)
-    for file_type in cdm.get_file_types():
-        for file_name in cdm.get_file_names(file_type=file_type):
-            file_data = cdm.get_file_data(file_type=file_type, file_name=file_name)
-            logging.info(
-                f"for client {file_data.get('client_name')}, file type {file_type}, and file name {file_name}"
-                f"downloading url {file_data.get('url')} locally to {file_data.get('excel_filename')}"
-            )
-            download_file(
-                url=file_data.get("url"),
-                filename=file_data.get("excel_filename"),
-                overwrite=False,
-            )
+for relevant_client_name in RELEVANT_CLIENT_NAMES:
+    for client_data in client_data_sources:
+        # NOTE: store client info
+        client_name = client_data["client_name"]
+        client_id = client_data["client_id"]
+        # NOTE: confirm this client exists and has the relevant file types
+        if client_name == relevant_client_name and all(
+            [
+                file_type in client_data["file_types"].keys()
+                for file_type in RELEVANT_FILE_TYPES
+            ]
+        ):
+            # NOTE: for each file type
+            for file_type in RELEVANT_FILE_TYPES:
+                # NOTE: extract the file and metadata info
+                files = client_data["file_types"][file_type]["files"]
+                metadata = client_data["file_types"][file_type]["metadata"]
+                # NOTE: for each file, download the excel files from the cloud
+                for file in files:
+                    external_filename = Path(
+                        os.path.join(INPUT_DIR, file["external_filename"])
+                    )
+                    external_url = file["external_url"]
+                    internal_filename = Path(
+                        os.path.join(OUTPUT_DIR, file["internal_filename"])
+                    )
+                    metadata_columns = metadata["columns"]
+                    schema = metadata["schema"]
+                    table_name = metadata["table_name"]
+                    relation = f"{schema}.{table_name}"
+                    logging.info(
+                        f"for client {client_name} and file type {file_type}, "
+                        f"downloading url {external_url} locally to {external_filename}"
+                    )
+                    download_file(
+                        url=external_url,
+                        filename=external_filename,
+                        overwrite=False,
+                    )
+                    logging.info("read in the external file, process it, and export it")
+                    process_csv(
+                        client_name=client_name,
+                        client_id=client_id,
+                        external_filename=external_filename,
+                        internal_filename=internal_filename,
+                        metadata_columns=metadata_columns,
+                        sep=CSV_SEP,
+                        quoting=CSV_QUOTING,
+                        overwrite=False,
+                    )
