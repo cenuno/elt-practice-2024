@@ -4,13 +4,51 @@ services:
     container_name: python
     build:
       dockerfile: Dockerfile.python
-    image: python
     restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
     ports:
       - 8050:8050
     volumes:
       - ./:/elt-practice-2024/
       - myapi_volume:/project_data/
+  postgres:
+    container_name: postgres
+    build:
+      dockerfile: Dockerfile.postgres
+    environment:
+      POSTGRES_DB: ${COMPOSE_POSTGRES_DB}
+      POSTGRES_USER: ${COMPOSE_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${COMPOSE_POSTGRES_PASSWORD}
+    ports:
+      - 5432:5432
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "psql -U ${COMPOSE_POSTGRES_USER} -d ${COMPOSE_POSTGRES_DB} -c 'SELECT 1' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data
+  pgadmin:
+    container_name: pgadmin
+    build:
+      dockerfile: Dockerfile.pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${COMPOSE_PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${COMPOSE_PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - 8888:80
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - pgadmin_volume:/var/lib/pgadmin
+
 
 volumes:
   myapi_volume:
+  postgres_volume:
+  pgadmin_volume:

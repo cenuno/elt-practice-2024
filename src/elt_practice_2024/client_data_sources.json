@@ -97,7 +97,7 @@
                             "data_type": "VARCHAR(5000)"
                         }
                     ],
-                    "schema": "public",
+                    "schema": "client_data",
                     "table_name": "raw_client_a_membership"
                 }
             },
@@ -183,7 +183,7 @@
                         "data_type": "VARCHAR(5000)"
                     }
                 ],
-                "schema": "public",
+                "schema": "client_data",
                 "table_name": "raw_client_a_claim"
             }
             }
@@ -276,7 +276,7 @@
                             "data_type": "VARCHAR(5000)"
                         }
                     ],
-                    "schema": "public",
+                    "schema": "client_data",
                     "table_name": "raw_client_a_membership"
                 }
             },
@@ -351,7 +351,7 @@
                             "data_type": "VARCHAR(5000)"
                         }
                     ],
-                    "schema": "public",
+                    "schema": "client_data",
                     "table_name": "raw_client_b_claim"
                 }
             }

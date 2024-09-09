@@ -1,0 +1,16 @@
+FROM dpage/pgadmin4:8.11
+
+# Switch to superuser
+USER root
+
+# Create a custom user with UID 1234 and GID 1234
+RUN groupadd -g 1234 customgroup && \
+    useradd -m -u 1234 -g customgroup customuser && \
+    mkdir /var/log/pgadmin && \
+    mkdir /var/lib/pgadmin/sessions
+RUN echo "'Inside Container:' && echo 'User: $(whoami) UID: $(id -u) GID: $(id -g)'"
+
+# NOTE: grant specific user ownership level access to project dir
+RUN chown -R customuser:customgroup /var/lib/pgadmin /var/log/pgadmin && \
+    # NOTE: pgadmin user (UID: 5050) in the pgadmin group (GID: 5050)
+    chown -R 5050:5050 /var/lib/pgadmin /var/log/pgadmin

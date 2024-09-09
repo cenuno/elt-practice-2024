@@ -1,0 +1,2 @@
+# NOTE: base image is from Linux
+FROM postgres:16.4-bookworm

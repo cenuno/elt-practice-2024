@@ -187,3 +187,6 @@ logs/
 
 # ignore any files within a data dir
 data/
+
+# ignore all files that start with . but end with _env
+.*_env
