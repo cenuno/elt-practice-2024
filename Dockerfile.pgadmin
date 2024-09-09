@@ -14,3 +14,6 @@ RUN echo "'Inside Container:' && echo 'User: $(whoami) UID: $(id -u) GID: $(id -
 RUN chown -R customuser:customgroup /var/lib/pgadmin /var/log/pgadmin && \
     # NOTE: pgadmin user (UID: 5050) in the pgadmin group (GID: 5050)
     chown -R 5050:5050 /var/lib/pgadmin /var/log/pgadmin
+
+# Switch to dedicated user
+USER 5050
