@@ -17,7 +17,7 @@ services:
       - 8050:8050
     volumes:
       - ./:/elt-practice-2024/
-      - myapi_volume:/project_data/
+      - python_volume:/project_data/
   postgres:
     container_name: postgres
     build:
@@ -58,6 +58,6 @@ services:
 
 
 volumes:
-  myapi_volume:
+  python_volume:
   postgres_volume:
   pgadmin_volume:
