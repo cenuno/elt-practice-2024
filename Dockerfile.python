@@ -30,7 +30,7 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 # NOTE: install poetry via pip in venv
 #       see details here https://python-poetry.org/docs/#installing-manually
 RUN python3 -m pip install setuptools==72.2.0 --no-cache-dir && \
-    python3 -m pip install poetry==1.8.0 --no-cache-dir
+    python3 -m pip install poetry==1.8.3 --no-cache-dir
 ENV PATH="$VENV_PATH/bin/poetry:$PATH"
 
 # NOTE: set workdir to be the project dir
@@ -41,8 +41,10 @@ COPY pyproject.toml poetry.lock ./
 
 # NOTE: install packages via poetry
 RUN poetry install --no-interaction --compile --no-root --only main && \
-    # NOTE: grant specific user ownership level access to project dir
-    chown -R customuser:customgroup /elt-practice-2024/
+    # NOTE: disable warnings about explicitly installing export plugin since that's already done
+    poetry config warnings.export false && \
+    # NOTE: grant specific user ownership level access to project dir & venv
+    chown -R customuser:customgroup /elt-practice-2024/ $VIRTUAL_ENV
 
 # NOTE: switch to custom user
 USER customuser
