@@ -7,43 +7,52 @@ from client_data_manager import ClientDataManager
 from data_extraction_utils import process_csv
 
 # Define the path to the test data and create mock data
-CLIENT_DATA_SOURCES_PATH = Path('test_client_data_sources.json')
+CLIENT_DATA_SOURCES_PATH = Path("test_client_data_sources.json")
 TEST_DATA = [
-        {
-            "client_name": "acme",
-            "client_id": 1,
-            "file_types": {
-                "membership": {
-                    "files": [
-                        {
-                            "external_filename": "external_file.xlsx",
-                            "external_url": "http://example.com/external_file.xlsx",
-                            "internal_filename": "internal_file.csv"
-                        }
-                    ],
-                    "metadata": {
-                        "columns": [
-                            {"position": 0, "external_name": "name", "processed_name": "Name"},
-                            {"position": 1, "external_name": "age", "processed_name": "Age"}
-                        ],
-                        "schema_name": "public",
-                        "table_name": "members"
+    {
+        "client_name": "acme",
+        "client_id": 1,
+        "file_types": {
+            "membership": {
+                "files": [
+                    {
+                        "external_filename": "external_file.xlsx",
+                        "external_url": "http://example.com/external_file.xlsx",
+                        "internal_filename": "internal_file.csv",
                     }
-                }
+                ],
+                "metadata": {
+                    "columns": [
+                        {
+                            "position": 0,
+                            "external_name": "name",
+                            "processed_name": "Name",
+                        },
+                        {
+                            "position": 1,
+                            "external_name": "age",
+                            "processed_name": "Age",
+                        },
+                    ],
+                    "schema_name": "public",
+                    "table_name": "members",
+                },
             }
         },
-        {
-            "client_name": "hooli"
-        }
+    },
+    {"client_name": "hooli"},
 ]
 
 # Write the test data to a JSON file
-with open(CLIENT_DATA_SOURCES_PATH, 'w', encoding='utf-8') as f:
+with open(CLIENT_DATA_SOURCES_PATH, "w", encoding="utf-8") as f:
     json.dump(TEST_DATA, f, indent=4)
+
 
 # Test ClientDataManager
 def test_client_data_manager():
-    client_manager = ClientDataManager(client_name="acme", data_path=CLIENT_DATA_SOURCES_PATH)
+    client_manager = ClientDataManager(
+        client_name="acme", data_path=CLIENT_DATA_SOURCES_PATH
+    )
 
     # Test get_file_types
     assert client_manager.get_file_types() == ["membership"]
@@ -64,18 +73,19 @@ def test_client_data_manager():
     assert len(filenames["membership"]["external_filenames"]) == 1
     assert filenames["membership"]["external_filenames"][0].name == "external_file.xlsx"
 
+
 # Test process_csv
 def test_process_csv():
     # Define dummy data and paths
-    external_filename = Path('test_external_file.csv')
-    internal_filename = Path('test_internal_file.csv')
+    external_filename = Path("test_external_file.csv")
+    internal_filename = Path("test_internal_file.csv")
     metadata_columns = [
         {"position": 0, "external_name": "name", "processed_name": "Name"},
-        {"position": 1, "external_name": "age", "processed_name": "Age"}
+        {"position": 1, "external_name": "age", "processed_name": "Age"},
     ]
 
     # Create a dummy CSV file
-    with open(external_filename, 'w', newline='', encoding='utf-8') as f:
+    with open(external_filename, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
         writer.writerow(["name", "age"])
         writer.writerow(["Alice", "30"])
@@ -88,8 +98,8 @@ def test_process_csv():
         external_filename=external_filename,
         internal_filename=internal_filename,
         metadata_columns=metadata_columns,
-        sep=',',
-        quoting=csv.QUOTE_MINIMAL
+        sep=",",
+        quoting=csv.QUOTE_MINIMAL,
     )
 
     # Check if the internal file was created
@@ -98,6 +108,7 @@ def test_process_csv():
     # Clean up
     os.remove(external_filename)
     os.remove(internal_filename)
+
 
 # Clean up the test data file
 def teardown_module():
