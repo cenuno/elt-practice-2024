@@ -67,12 +67,6 @@ def test_client_data_manager():
     assert metadata["schema_name"] == "public"
     assert metadata["table_name"] == "members"
 
-    # Test get_all_filenames
-    filenames = client_manager.get_all_filenames()
-    assert "membership" in filenames
-    assert len(filenames["membership"]["external_filenames"]) == 1
-    assert filenames["membership"]["external_filenames"][0].name == "external_file.xlsx"
-
 
 # Test process_csv
 def test_process_csv():

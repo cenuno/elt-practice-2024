@@ -75,6 +75,7 @@ directory = "coverage_html_report"
 [[tool.mypy.overrides]]
 module = [
     "client_data_manager.*",
-    "data_extraction_utils.*"
+    "data_extraction_utils.*",
+    "custom_logger.*",
 ]
 ignore_missing_imports = true
