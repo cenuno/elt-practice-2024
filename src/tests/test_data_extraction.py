@@ -1,116 +1,79 @@
-import json
-import os
+#!/usr/bin/python3
+
+"""
+Test custom logger module
+"""
+
 import csv
+import os
 from pathlib import Path
 
-from client_data_manager import ClientDataManager
-from data_extraction_utils import process_csv
+import pytest
 
-# Define the path to the test data and create mock data
-CLIENT_DATA_SOURCES_PATH = Path("test_client_data_sources.json")
-TEST_DATA = [
-    {
-        "client_name": "acme",
-        "client_id": 1,
-        "file_types": {
-            "membership": {
-                "files": [
-                    {
-                        "external_filename": "external_file.xlsx",
-                        "external_url": "http://example.com/external_file.xlsx",
-                        "internal_filename": "internal_file.csv",
-                    }
-                ],
-                "metadata": {
-                    "columns": [
-                        {
-                            "position": 0,
-                            "external_name": "name",
-                            "processed_name": "Name",
-                        },
-                        {
-                            "position": 1,
-                            "external_name": "age",
-                            "processed_name": "Age",
-                        },
-                    ],
-                    "schema_name": "public",
-                    "table_name": "members",
-                },
-            }
-        },
-    },
-    {"client_name": "hooli"},
-]
-
-# Write the test data to a JSON file
-with open(CLIENT_DATA_SOURCES_PATH, "w", encoding="utf-8") as f:
-    json.dump(TEST_DATA, f, indent=4)
+from data_extraction import main
 
 
-# Test ClientDataManager
-def test_client_data_manager():
-    client_manager = ClientDataManager(
-        client_name="acme", data_path=CLIENT_DATA_SOURCES_PATH
+def test_main_custom_params(tmp_path):
+    # NOTE: store variables
+    input_dir = os.path.join(tmp_path, "data", "input")
+    output_dir = os.path.join(tmp_path, "data", "output")
+    log_output_dir = os.path.join(tmp_path, "logs")
+    client_data_sources_path = Path(
+        os.path.join("src", "elt_practice_2024", "client_data_sources.json")
+    )
+    # NOTE: call main method
+    main(
+        client_names=["acme", "hooli"],
+        file_types=["membership", "claim"],
+        input_dir=input_dir,
+        output_dir=output_dir,
+        sep="|",
+        quoting=csv.QUOTE_NONE,
+        overwrite_download=False,
+        overwrite_process=False,
+        log_output_dir=log_output_dir,
+        client_data_sources_path=client_data_sources_path,
     )
 
-    # Test get_file_types
-    assert client_manager.get_file_types() == ["membership"]
-
-    # Test get_files_by_type
-    files = client_manager.get_files_by_type("membership")
-    assert len(files) == 1
-    assert files[0]["external_filename"] == "external_file.xlsx"
-
-    # Test get_metadata_by_file_type
-    metadata = client_manager.get_metadata_by_file_type("membership")
-    assert metadata["schema_name"] == "public"
-    assert metadata["table_name"] == "members"
-
-    # Test get_all_filenames
-    filenames = client_manager.get_all_filenames()
-    assert "membership" in filenames
-    assert len(filenames["membership"]["external_filenames"]) == 1
-    assert filenames["membership"]["external_filenames"][0].name == "external_file.xlsx"
-
-
-# Test process_csv
-def test_process_csv():
-    # Define dummy data and paths
-    external_filename = Path("test_external_file.csv")
-    internal_filename = Path("test_internal_file.csv")
-    metadata_columns = [
-        {"position": 0, "external_name": "name", "processed_name": "Name"},
-        {"position": 1, "external_name": "age", "processed_name": "Age"},
+    # NOTE: store files from input dir and output dir
+    input_dir_files = [
+        Path(os.path.join(input_dir, file)) for file in os.listdir(input_dir)
+    ]
+    output_dir_files = [
+        Path(os.path.join(output_dir, file)) for file in os.listdir(output_dir)
     ]
 
-    # Create a dummy CSV file
-    with open(external_filename, "w", newline="", encoding="utf-8") as f:
-        writer = csv.writer(f)
-        writer.writerow(["name", "age"])
-        writer.writerow(["Alice", "30"])
-        writer.writerow(["Bob", "25"])
+    assert len(input_dir_files) > 0, "no input files were downloaded"
+    assert len(output_dir_files) > 0, "no output files were processed"
 
-    # Call the function
-    process_csv(
-        client_name="acme",
-        client_id=1,
-        external_filename=external_filename,
-        internal_filename=internal_filename,
-        metadata_columns=metadata_columns,
-        sep=",",
-        quoting=csv.QUOTE_MINIMAL,
-    )
-
-    # Check if the internal file was created
-    assert internal_filename.is_file()
-
-    # Clean up
-    os.remove(external_filename)
-    os.remove(internal_filename)
+    # NOTE: ensure each file was truly created
+    for input_file, output_file in zip(input_dir_files, output_dir_files):
+        assert input_file.is_file(), f"{input_file} does not exist"
+        assert output_file.is_file(), f"{output_file} does not exist"
+        # NOTE: delete files so that we don't have to worry about it
+        input_file.unlink()
+        output_file.unlink()
 
 
-# Clean up the test data file
-def teardown_module():
-    if os.path.isfile(CLIENT_DATA_SOURCES_PATH):
-        os.remove(CLIENT_DATA_SOURCES_PATH)
+def test_main_nonexistent_client(tmp_path):
+    with pytest.raises(ValueError):
+        # NOTE: store variables
+        input_dir = os.path.join(tmp_path, "data", "input")
+        output_dir = os.path.join(tmp_path, "data", "output")
+        log_output_dir = os.path.join(tmp_path, "logs")
+        client_data_sources_path = Path(
+            os.path.join("src", "elt_practice_2024", "client_data_sources.json")
+        )
+        # NOTE: call main method
+        main(
+            client_names=["lumi"],
+            file_types=["membership", "claim"],
+            input_dir=input_dir,
+            output_dir=output_dir,
+            sep="|",
+            quoting=csv.QUOTE_NONE,
+            overwrite_download=False,
+            overwrite_process=False,
+            log_output_dir=log_output_dir,
+            client_data_sources_path=client_data_sources_path,
+        )

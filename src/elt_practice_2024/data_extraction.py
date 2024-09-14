@@ -5,115 +5,82 @@ Extract data from cloud and store it locally using ClientDataManager
 """
 
 import csv
-import logging
 import os
 from pathlib import Path
+from typing import List, Optional
 
-import pendulum
-
-from data_extraction_utils import download_file, process_csv
+from custom_logger import setup_custom_logger
 from client_data_manager import ClientDataManager
 
-# NOTE: create log file naming convention
-LOG_NOW_TIMESTAMP = pendulum.now().to_iso8601_string()
-LOG_FILENAME = os.path.join("logs", f"{LOG_NOW_TIMESTAMP}_data_extraction.log")
-Path(os.path.dirname(LOG_FILENAME)).mkdir(parents=True, exist_ok=True)
-LOG_ENCODING = "utf-8"
-LOG_FILE_MODE = "w"
-LOG_FORMATTER = "%(asctime)s %(name)12s %(levelname)8s %(message)s"
 
-# NOTE: setup logging
-logging.basicConfig(
-    filename=LOG_FILENAME,
-    filemode=LOG_FILE_MODE,
-    encoding=LOG_ENCODING,
-    level=logging.DEBUG,
-    format=LOG_FORMATTER,
-)
+def main(
+    client_names: List[str],
+    file_types: Optional[List[str]] = None,
+    input_dir: str = os.path.join("data", "input"),
+    output_dir: str = os.path.join("data", "output"),
+    sep: str = "|",
+    quoting: int = csv.QUOTE_NONE,
+    overwrite_download: bool = False,
+    overwrite_process: bool = False,
+    log_output_dir: str = os.path.join("logs"),
+    client_data_sources_path: Path = Path("client_data_sources.json"),
+) -> None:
+    """
+    Main method to extract data for clients and store it locally.
 
-# NOTE: define a Handler which writes INFO messages or higher to the sys.stderr
-console = logging.StreamHandler()
-console.setLevel(logging.INFO)
-console.setFormatter(logging.Formatter(LOG_FORMATTER))
+    :param client_names: List[str] - List of client names to process
+    :param file_types: Optional[List[str]] - List of file types to process. If None, all types are processed
+    :param input_dir: str - Directory to download files to
+    :param output_dir: str - Directory to store processed files
+    :param sep: str - Delimiter used in CSV files
+    :param quoting: int - CSV quoting option
+    :param overwrite_download: bool - Flag to overwrite downloaded files
+    :param overwrite_process: bool - Flag to overwrite processed files
+    :param log_output_dir: str - Directory for storing logs
+    :param client_data_sources_path: str - Path to client data sources JSON
+    :param current_script_filename: Optional[str] - Name of the current script for logging purposes
+    """
 
-# NOTE: add the handler to the root logger
-logging.getLogger("").addHandler(console)
-logging.info("beginning data extraction")
+    # NOTE: use current script name
+    current_script_filename = Path(os.path.basename(__file__)).stem
 
-# NOTE: store relevant client names
-RELEVANT_CLIENT_NAMES = ["acme", "hooli"]
+    # NOTE: set up custom logging
+    logger, _ = setup_custom_logger(current_script_filename, log_output_dir)
 
-# NOTE: store relevant file types
-RELEVANT_FILE_TYPES = ["membership", "claim"]
+    # NOTE: init ClientDataManager and process files for each client
+    logger.info("Starting data extraction for clients")
 
-# NOTE: store relevant CSV options
-CSV_SEP = "|"
-CSV_QUOTING = csv.QUOTE_NONE
-
-# NOTE: store data dir
-INPUT_DIR = os.path.join("data", "input")
-OUTPUT_DIR = os.path.join("data", "output")
-
-# NOTE: store data source path
-CLIENT_DATA_SOURCES_PATH = Path("client_data_sources.json")
-
-logging.info("for each client, download the excel files from the cloud")
-
-# Iterate over each relevant client
-for client_name in RELEVANT_CLIENT_NAMES:
-    try:
-        # Initialize ClientDataManager with the client name and path to JSON data
-        client_manager = ClientDataManager(
-            client_name=client_name, data_path=CLIENT_DATA_SOURCES_PATH
+    for client_name in client_names:
+        logger.info(f"Processing client: {client_name}")
+        cdm = ClientDataManager(
+            client_name=client_name,
+            data_path=Path(client_data_sources_path),
         )
 
-        # Check and iterate over the relevant file types for the client
-        for file_type in RELEVANT_FILE_TYPES:
-            if file_type in client_manager.get_file_types():
-                # Retrieve files and metadata by file type
-                files = client_manager.get_files_by_type(file_type)
-                metadata = client_manager.get_metadata_by_file_type(file_type)
+        # Download and process files
+        cdm.download_and_process_files(
+            file_types=file_types,
+            input_dir=input_dir,
+            output_dir=output_dir,
+            sep=sep,
+            quoting=quoting,
+            overwrite_download=overwrite_download,
+            overwrite_process=overwrite_process,
+        )
 
-                # Extract metadata details
-                metadata_columns = metadata["columns"]
+    logger.info("Data extraction completed")
 
-                # Iterate over each file for processing
-                for file in files:
-                    external_filename = Path(
-                        os.path.join(INPUT_DIR, file["external_filename"])
-                    )
-                    external_url = file["external_url"]
-                    internal_filename = Path(
-                        os.path.join(OUTPUT_DIR, file["internal_filename"])
-                    )
 
-                    logging.info(
-                        f"inpecting if it is necessary for client {client_name} and file type {file_type}, "
-                        f"downloading url {external_url} locally to {external_filename}"
-                    )
-
-                    # Download the file
-                    download_file(
-                        url=external_url,
-                        filename=external_filename,
-                        overwrite=False,
-                    )
-
-                    logging.info("inspect if we need to process the external file")
-
-                    # Process the downloaded file
-                    process_csv(
-                        client_name=client_name,
-                        client_id=client_manager.client_data["client_id"],
-                        external_filename=external_filename,
-                        internal_filename=internal_filename,
-                        metadata_columns=metadata_columns,
-                        sep=CSV_SEP,
-                        quoting=CSV_QUOTING,
-                        overwrite=False,
-                    )
-
-    except ValueError as e:
-        logging.warning(f"Skipping {client_name}: {e}")
-
-logging.info("data extraction completed")
+if __name__ == "__main__":
+    main(
+        client_names=["acme", "hooli"],
+        file_types=["membership", "claim"],
+        input_dir="data/input",
+        output_dir="data/output",
+        sep="|",
+        quoting=csv.QUOTE_NONE,
+        overwrite_download=False,
+        overwrite_process=False,
+        log_output_dir="logs",
+        client_data_sources_path=Path("client_data_sources.json"),
+    )
