@@ -4,65 +4,83 @@
 Extract data from cloud and store it locally using ClientDataManager
 """
 
-
 import csv
 import os
 from pathlib import Path
+from typing import List, Optional
 
 from custom_logger import setup_custom_logger
 from client_data_manager import ClientDataManager
 
 
-# NOTE: store output log dir
-LOG_OUTPUT_DIR = "logs"
-# NOTE: get the name of the importing script (this script)
-current_script_filename = Path(os.path.basename(__file__)).stem
+def main(
+    client_names: List[str],
+    file_types: Optional[List[str]] = None,
+    input_dir: str = os.path.join("data", "input"),
+    output_dir: str = os.path.join("data", "output"),
+    sep: str = "|",
+    quoting: int = csv.QUOTE_NONE,
+    overwrite_download: bool = False,
+    overwrite_process: bool = False,
+    log_output_dir: str = os.path.join("logs"),
+    client_data_sources_path: Path = Path("client_data_sources.json"),
+) -> None:
+    """
+    Main method to extract data for clients and store it locally.
 
-# NOTE: set up custom logging
-logger, _ = setup_custom_logger(current_script_filename, LOG_OUTPUT_DIR)
+    :param client_names: List[str] - List of client names to process
+    :param file_types: Optional[List[str]] - List of file types to process. If None, all types are processed
+    :param input_dir: str - Directory to download files to
+    :param output_dir: str - Directory to store processed files
+    :param sep: str - Delimiter used in CSV files
+    :param quoting: int - CSV quoting option
+    :param overwrite_download: bool - Flag to overwrite downloaded files
+    :param overwrite_process: bool - Flag to overwrite processed files
+    :param log_output_dir: str - Directory for storing logs
+    :param client_data_sources_path: str - Path to client data sources JSON
+    :param current_script_filename: Optional[str] - Name of the current script for logging purposes
+    """
 
-# NOTE: store relevant client names
-CLIENT_NAMES = ["acme", "hooli"]
+    # NOTE: use current script name
+    current_script_filename = Path(os.path.basename(__file__)).stem
 
-# NOTE: store relevant file types
-FILE_TYPES = []  # ["membership", "claim"]
+    # NOTE: set up custom logging
+    logger, _ = setup_custom_logger(current_script_filename, log_output_dir)
 
-# NOTE: store relevant CSV options
-SEP = "|"
-QUOTING = csv.QUOTE_NONE
+    # NOTE: init ClientDataManager and process files for each client
+    logger.info("Starting data extraction for clients")
 
-# NOTE: store data dir
-INPUT_DIR = os.path.join("data", "input")
-OUTPUT_DIR = os.path.join("data", "output")
-
-# NOTE: store overwrite options
-OVERWRITE_DOWNLOAD = False
-OVERWRITE_PROCESS = False
-
-# NOTE: store data source path
-CLIENT_DATA_SOURCES_PATH = Path("client_data_sources.json")
-
-logger.info("for each client, download the excel files from the cloud")
-
-for client_name in CLIENT_NAMES:
-    try:
-        # NOTE: init ClientDataManager with the client name and path to JSON data
+    for client_name in client_names:
+        logger.info(f"Processing client: {client_name}")
         cdm = ClientDataManager(
             client_name=client_name,
-            data_path=CLIENT_DATA_SOURCES_PATH,
+            data_path=Path(client_data_sources_path),
         )
-        # NOTE: download files and process them
+
+        # Download and process files
         cdm.download_and_process_files(
-            file_types=FILE_TYPES,
-            input_dir=INPUT_DIR,
-            output_dir=OUTPUT_DIR,
-            sep=SEP,
-            quoting=QUOTING,
-            overwrite_download=OVERWRITE_DOWNLOAD,
-            overwrite_process=OVERWRITE_PROCESS,
+            file_types=file_types,
+            input_dir=input_dir,
+            output_dir=output_dir,
+            sep=sep,
+            quoting=quoting,
+            overwrite_download=overwrite_download,
+            overwrite_process=overwrite_process,
         )
 
-    except ValueError as e:
-        logger.warning(f"Skipping {client_name}: {e}")
+    logger.info("Data extraction completed")
 
-logger.info("data extraction completed")
+
+if __name__ == "__main__":
+    main(
+        client_names=["acme", "hooli"],
+        file_types=["membership", "claim"],
+        input_dir="data/input",
+        output_dir="data/output",
+        sep="|",
+        quoting=csv.QUOTE_NONE,
+        overwrite_download=False,
+        overwrite_process=False,
+        log_output_dir="logs",
+        client_data_sources_path=Path("client_data_sources.json"),
+    )

@@ -17,6 +17,7 @@ CLIENT_DATA_SOURCES_PATH = Path(
     os.path.join("src", "elt_practice_2024", "client_data_sources.json")
 )
 
+
 def test_existing_client():
     cdm = ClientDataManager(client_name="acme", data_path=CLIENT_DATA_SOURCES_PATH)
     assert cdm.client_data is not None
@@ -128,7 +129,7 @@ def test_download_and_process_unknown_file_types(tmp_path):
         # NOTE: store overwrite options
         OVERWRITE_DOWNLOAD = True
         OVERWRITE_PROCESS = True
-    
+
         # NOTE: download files and process them
         cdm.download_and_process_files(
             file_types=FILE_TYPES,
@@ -139,6 +140,7 @@ def test_download_and_process_unknown_file_types(tmp_path):
             overwrite_download=OVERWRITE_DOWNLOAD,
             overwrite_process=OVERWRITE_PROCESS,
         )
+
 
 def test_download_and_process_all_file(tmp_path):
     # NOTE: store relevant file types
@@ -181,12 +183,11 @@ def test_download_and_process_all_file(tmp_path):
         overwrite_download=OVERWRITE_DOWNLOAD,
         overwrite_process=OVERWRITE_PROCESS,
     )
-    
+
     # NOTE: for each file, determine that it exists
     check_input_files = [input_file.is_file() for input_file in input_files]
     check_output_files = [output_file.is_file() for output_file in output_files]
     print(input_files, check_input_files, output_files, check_output_files)
-    
 
     assert all(check_input_files), "Not all input files were found"
     assert all(check_output_files), "Not all output files were found"

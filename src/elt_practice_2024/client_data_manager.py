@@ -4,13 +4,18 @@
 Create a custom class to handle client data
 """
 
+import inspect
 import json
-import logging
 import os
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, List, Union
 
-from data_extraction_utils import download_file, process_csv
+from custom_logger import setup_function_logger
+from data_extraction_utils import MetadataColumns, download_file, process_csv
+
+
+# NOTE: fetch the current script name
+CURRENT_SCRIPT_FILENAME = Path(os.path.basename(__file__)).stem
 
 
 class ClientDataManager:
@@ -20,6 +25,8 @@ class ClientDataManager:
 
         :param client_name: str - Name of the client
         :param data_path: str - Path to JSON-like data containing client information
+
+        :return ClientDataManager - class to interact with JSON data
         """
         with open(data_path, mode="r", encoding="utf-8") as f:
             self.client_data_sources = json.load(f)
@@ -58,7 +65,9 @@ class ClientDataManager:
             raise ValueError(f"No files found for the type: {file_type}")
         return file_data["files"]
 
-    def get_metadata_by_file_type(self, file_type: str) -> Dict[str, str]:
+    def get_metadata_by_file_type(
+        self, file_type: str
+    ) -> Dict[str, Union[str, MetadataColumns]]:
         """
         Retrieve metadata for a given file type.
 
@@ -97,7 +106,10 @@ class ClientDataManager:
 
         # Step 2: Process each relevant file type
         for file_type in relevant_file_types:
-            files, metadata_columns = self._get_files_and_metadata(file_type)
+            files = self.get_files_by_type(file_type)
+            metadata_columns = self.get_metadata_by_file_type(file_type=file_type).get(
+                "columns"
+            )
             for file in files:
                 self._download_and_process_file(
                     file=file,
@@ -117,7 +129,16 @@ class ClientDataManager:
         :param file_types: List[str] - The file types to process, or all known types if empty
         :return: List[str] - List of relevant file types
         """
-        logging.info("retrieving relevant files based on user input")
+        # NOTE: fetch class name
+        class_name = type(self).__name__
+        # NOTE: fetch function name
+        function_name = inspect.currentframe().f_code.co_name  # type: ignore
+        # NOTE: create function logger
+        logger = setup_function_logger(
+            script_name=CURRENT_SCRIPT_FILENAME,
+            function_name=f"{class_name}.{function_name}",
+        )
+        logger.info("retrieving relevant files based on user input")
         known_file_types = self.get_file_types()
 
         # If no specific file types are provided, process all known file types
@@ -133,25 +154,10 @@ class ClientDataManager:
 
         return file_types
 
-    def _get_files_and_metadata(
-        self, file_type: str
-    ) -> Tuple[List[Dict[str, str]], List[str]]:
-        """Retrieve the list of files and associated metadata columns for the given file type.
-
-        :param file_type: str - The type of files to retrieve
-        :return: Tuple[List[Dict[str, str]], List[str]] - List of files and metadata columns
-        """
-        logging.info(
-            "retrieving the list of files and associated metadata columns for the given file type"
-        )
-        files = self.get_files_by_type(file_type)
-        metadata = self.get_metadata_by_file_type(file_type)
-        return files, metadata["columns"]
-
     def _download_and_process_file(
         self,
         file: Dict[str, str],
-        metadata_columns: List[str],
+        metadata_columns: MetadataColumns,
         input_dir: str,
         output_dir: str,
         sep: str,
@@ -163,7 +169,7 @@ class ClientDataManager:
         """Download and process a single file based on metadata and client settings.
 
         :param file: Dict[str, str] - A dictionary with file information (e.g., URL, filenames)
-        :param metadata_columns: List[str] - The metadata columns required for processing the file
+        :param metadata_columns: Metadata Columns - an array that contains one dictionary per given column
         :param input_dir: str - Location of the downloaded external files
         :param output_dir: str - Location of the processed files
         :param sep: str - Delimiter used in the file
@@ -174,11 +180,20 @@ class ClientDataManager:
 
         :return: None
         """
+        # NOTE: fetch class name
+        class_name = type(self).__name__
+        # NOTE: fetch function name
+        function_name = inspect.currentframe().f_code.co_name  # type: ignore
+        # NOTE: create function logger
+        logger = setup_function_logger(
+            script_name=CURRENT_SCRIPT_FILENAME,
+            function_name=f"{class_name}.{function_name}",
+        )
         external_filename = Path(os.path.join(input_dir, file["external_filename"]))
         external_url = file["external_url"]
         internal_filename = Path(os.path.join(output_dir, file["internal_filename"]))
 
-        logging.info(
+        logger.info(
             f"Inspecting if it is necessary for client {self.client_name}, file type {file_type}, "
             f"downloading URL {external_url} locally to {external_filename}"
         )
@@ -190,7 +205,7 @@ class ClientDataManager:
             overwrite=overwrite_download,
         )
 
-        logging.info("Inspect if we need to process the external file")
+        logger.info("Inspect if we need to process the external file")
 
         # Process the downloaded file
         process_csv(
