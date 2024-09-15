@@ -1390,6 +1390,9 @@ tomlkit==0.13.2 ; python_full_version == "3.12.5" \
 trove-classifiers==2024.9.12 ; python_full_version == "3.12.5" \
     --hash=sha256:4b46b3e134a4d01999ac5bc6e528afcc10cc48f0f724f185f267e276005768f4 \
     --hash=sha256:f88a27a892891c87c5f8bbdf110710ae9e0a4725ea8e0fb45f1bcadf088a491f
+types-psycopg2==2.9.21.20240819 ; python_full_version == "3.12.5" \
+    --hash=sha256:4ed6b47464d6374fa64e5e3b234cea0f710e72123a4596d67ab50b7415a84666 \
+    --hash=sha256:c9192311c27d7ad561eef705f1b2df1074f2cdcf445a98a6a2fcaaaad43278cf
 types-requests==2.32.0.20240712 ; python_full_version == "3.12.5" \
     --hash=sha256:90c079ff05e549f6bf50e02e910210b98b8ff1ebdd18e19c873cd237737c1358 \
     --hash=sha256:f754283e152c752e46e70942fa2a146b5bc70393522257bb85bd1ef7e019dcc3

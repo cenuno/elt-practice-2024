@@ -37,7 +37,7 @@ def main(
     :param overwrite_download: bool - Flag to overwrite downloaded files
     :param overwrite_process: bool - Flag to overwrite processed files
     :param log_output_dir: str - Directory for storing logs
-    :param client_data_sources_path: str - Path to client data sources JSON
+    :param client_data_sources_path: Path - Path to client data sources JSON
     :param current_script_filename: Optional[str] - Name of the current script for logging purposes
     """
 
