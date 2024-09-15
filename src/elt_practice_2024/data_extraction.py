@@ -54,7 +54,7 @@ def main(
         logger.info(f"Processing client: {client_name}")
         cdm = ClientDataManager(
             client_name=client_name,
-            data_path=Path(client_data_sources_path),
+            data_path=client_data_sources_path,
         )
 
         # Download and process files

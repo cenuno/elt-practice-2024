@@ -19,12 +19,12 @@ CURRENT_SCRIPT_FILENAME = Path(os.path.basename(__file__)).stem
 
 
 class ClientDataManager:
-    def __init__(self, client_name: str, data_path: str):
+    def __init__(self, client_name: str, data_path: Path):
         """
         Initialize the ClientDataManager with a client name and path to the JSON data.
 
         :param client_name: str - Name of the client
-        :param data_path: str - Path to JSON-like data containing client information
+        :param data_path: Path - Path to JSON-like data containing client information
 
         :return ClientDataManager - class to interact with JSON data
         """
