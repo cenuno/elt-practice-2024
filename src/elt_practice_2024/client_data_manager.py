@@ -170,8 +170,8 @@ class ClientDataManager:
 
         :param file: Dict[str, str] - A dictionary with file information (e.g., URL, filenames)
         :param metadata_columns: Metadata Columns - an array that contains one dictionary per given column
-        :param input_dir: str - Location of the downloaded external files
-        :param output_dir: str - Location of the processed files
+        :param input_dir: str - parent directory of the downloaded external files
+        :param output_dir: str - parent directory of the processed files
         :param sep: str - Delimiter used in the file
         :param quoting: int - Quote option to use during file processing
         :param overwrite_download: bool - Whether to overwrite an already downloaded file
@@ -189,9 +189,20 @@ class ClientDataManager:
             script_name=CURRENT_SCRIPT_FILENAME,
             function_name=f"{class_name}.{function_name}",
         )
-        external_filename = Path(os.path.join(input_dir, file["external_filename"]))
+        logger.info(
+            "Adding the client name and file type as nested sub-dirs within given input and output dirs"
+        )
+        external_filename = Path(
+            os.path.join(
+                input_dir, self.client_name, file_type, file["external_filename"]
+            )
+        )
         external_url = file["external_url"]
-        internal_filename = Path(os.path.join(output_dir, file["internal_filename"]))
+        internal_filename = Path(
+            os.path.join(
+                output_dir, self.client_name, file_type, file["internal_filename"]
+            )
+        )
 
         logger.info(
             f"Inspecting if it is necessary for client {self.client_name}, file type {file_type}, "

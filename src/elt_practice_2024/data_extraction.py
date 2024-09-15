@@ -30,8 +30,8 @@ def main(
 
     :param client_names: List[str] - List of client names to process
     :param file_types: Optional[List[str]] - List of file types to process. If None, all types are processed
-    :param input_dir: str - Directory to download files to
-    :param output_dir: str - Directory to store processed files
+    :param input_dir: str - parent directory to download files to
+    :param output_dir: str - parent directory to store processed files
     :param sep: str - Delimiter used in CSV files
     :param quoting: int - CSV quoting option
     :param overwrite_download: bool - Flag to overwrite downloaded files
