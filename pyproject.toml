@@ -78,5 +78,6 @@ module = [
     "client_data_manager.*",
     "data_extraction_utils.*",
     "custom_logger.*",
+    "data_ingestion_utils.*",
 ]
 ignore_missing_imports = true

@@ -12,6 +12,7 @@ import psycopg2
 
 from client_data_manager import ClientDataManager
 from custom_logger import setup_custom_logger
+from data_ingestion_utils import create_schema
 
 
 def main(
@@ -45,26 +46,24 @@ def main(
         "POSTGRES_PYTHON_LIBPQ_CONNECTION_STRING"
     )
 
+    logger.info("connect to db")
+    conn = psycopg2.connect(dsn=POSTGRES_LIBPQ_CONN_STRING)
+
     logger.info("begin data ingestion")
     for client_name in client_names:
         cdm = ClientDataManager(
             client_name=client_name,
             data_path=client_data_sources_path,
         )
-        logger.info(f"Processing client: {cdm.client_name}")
+        logger.info(f"processing client: {cdm.client_name}")
         logger.info(f"input dir is: {input_dir}")
         logger.info(f"file types are: {file_types}")
-        logger.info("connect to postgres db")
-        conn = psycopg2.connect(dsn=POSTGRES_LIBPQ_CONN_STRING)
-        logger.info("open a cursor to perform database operations")
-        cur = conn.cursor()
-        cur.execute("SELECT usename from pg_user;")
-        results = cur.fetchall()
-        logger.info(f"results are: {results}")
-        logger.info("close communication to database")
-        cur.close()
-        conn.close()
+        logger.info("create a client specific schema if it does not exist")
+        schema_name = f"client_{cdm.client_name}"
+        create_schema(schema_name=schema_name, conn=conn)
 
+    logger.info("close connection to db")
+    conn.close()
     logger.info("finished data ingestion")
 
 
