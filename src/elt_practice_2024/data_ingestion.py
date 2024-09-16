@@ -12,13 +12,16 @@ import psycopg2
 
 from client_data_manager import ClientDataManager
 from custom_logger import setup_custom_logger
-from data_ingestion_utils import create_schema
+from data_ingestion_utils import (
+    create_schema,
+    generate_create_table_statement,
+)
 
 
 def main(
     client_names: List[str],
-    file_types: Optional[List[str]] = None,
-    input_dir: str = os.path.join("data", "input"),
+    file_types: List[str],
+    input_dir: str = os.path.join("data", "output"),
     log_output_dir: str = os.path.join("logs"),
     client_data_sources_path: Path = Path("client_data_sources.json"),
 ) -> None:
@@ -56,11 +59,29 @@ def main(
             data_path=client_data_sources_path,
         )
         logger.info(f"processing client: {cdm.client_name}")
+        client_dir = os.path.join(input_dir, cdm.client_name)
         logger.info(f"input dir is: {input_dir}")
         logger.info(f"file types are: {file_types}")
         logger.info("create a client specific schema if it does not exist")
         schema_name = f"client_{cdm.client_name}"
         create_schema(schema_name=schema_name, conn=conn)
+
+        logger.info("for each input file, create a specific table")
+        for file_type in file_types:
+            logger.info(f"fetch metadata for this file type: {file_type}")
+            metadata = cdm.get_metadata_by_file_type(file_type=file_type)
+            metadata_columns = metadata.get("columns")
+            file_type_dir = os.path.join(client_dir, file_type)
+            for file in os.listdir(file_type_dir):
+                logger.info(f"use {file} as table name without the .csv extension")
+                table_name = file.replace(".csv", "")
+                _ = generate_create_table_statement(
+                    schema_name=schema_name,
+                    table_name=table_name,
+                    columns=metadata_columns,
+                    conn=conn,
+                    execute=True,
+                )
 
     logger.info("close connection to db")
     conn.close()
@@ -71,7 +92,7 @@ if __name__ == "__main__":
     main(
         client_names=["acme", "hooli"],
         file_types=["membership", "claim"],
-        input_dir=os.path.join("data", "input"),
+        input_dir=os.path.join("data", "output"),
         log_output_dir=os.path.join("logs"),
         client_data_sources_path=Path("client_data_sources.json"),
     )
