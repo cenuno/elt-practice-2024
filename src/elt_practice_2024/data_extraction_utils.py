@@ -17,7 +17,7 @@ import pendulum
 from custom_logger import setup_function_logger
 
 # NOTE: create custom type
-MetadataColumns = List[Mapping[str, Union[str, int]]]
+MetadataColumns = List[Mapping[str, Union[str, int, bool]]]
 
 TIMEZONE = "America/Los_Angeles"
 CURRENT_SCRIPT_FILENAME = Path(os.path.basename(__file__)).stem
@@ -135,8 +135,20 @@ def process_csv(
         )
         logger.info(f"columns as is are: {list(df_raw.columns)}")
 
-        # NOTE: create empty data frame
+        logger.info("create empty data frame")
         df_processed = pd.DataFrame()
+
+        logger.info("create internal column mapping")
+        # NOTE: create constant time
+        NOW = pendulum.now(tz=TIMEZONE)
+        INTERNAL_COLUMNS_NOT_FOUND_IN_FILE = {
+            "client_name": client_name,
+            "client_id": client_id,
+            "external_filename": str(external_filename),
+            "internal_filename": str(internal_filename),
+            "created_on": NOW,
+            "modified_on": NOW,
+        }
 
         logger.info("fetch expected columns")
         for ind, expected_column_data in enumerate(metadata_columns):
@@ -144,30 +156,36 @@ def process_csv(
             position = expected_column_data["position"]
             external_name = expected_column_data["external_name"]
             processed_name = expected_column_data["processed_name"]
-            logger.info(f"looking for {external_name} from dataset")
-            for given_column in df_raw.columns:
-                if external_name == given_column and ind == position:
-                    df_processed[processed_name] = df_raw[given_column]
+            found_in_file = expected_column_data["found_in_file"]
+            # NOTE: for columns found in the file
+            if found_in_file:
+                logger.info(f"looking for {external_name} from dataset")
+                # NOTE: fetch all columns found in the file
+                for given_column in df_raw.columns:
+                    # NOTE: ensure the expected name and position align
+                    if external_name == given_column and ind == position:
+                        # NOTE: create a new column
+                        df_processed[processed_name] = df_raw[given_column]
+            else:
+                # NOTE: for columns not found in file, they're internal columns
+                for (
+                    internal_column,
+                    value,
+                ) in INTERNAL_COLUMNS_NOT_FOUND_IN_FILE.items():
+                    # NOTE: check if this internal column matches the one currently being processed
+                    if internal_column == processed_name:
+                        logger.info(f"processing internal columns of: {processed_name}")
+                        df_processed[processed_name] = value
 
         logger.info(f"columns after processing are: {list(df_processed.columns)}")
 
         logger.info("ensure all nan values are empty strings")
         df_processed = df_processed.fillna("")
 
-        logger.info("for each column, remove non printable chars")
-        for col in df_processed.columns:
-            df_processed[col] = remove_non_printable_chars(df_processed[col])
-
-        logger.info("create hard coded columns with internal_ prefix")
-        df_processed["client_name"] = client_name
-        df_processed["client_id"] = client_id
-        df_processed["external_filename"] = external_filename
-        df_processed["internal_filename"] = internal_filename
-        # NOTE: create constant time
-        NOW = pendulum.now(tz=TIMEZONE)
-        df_processed["created_on"] = NOW
-        df_processed["modified_on"] = NOW
-        logger.info(f"final columns are: {df_processed.columns}")
+        logger.info("for each object column, remove non printable chars")
+        for col, dtype in zip(df_processed.columns, df_processed.dtypes):
+            if pd.api.types.is_object_dtype(dtype):
+                df_processed[col] = remove_non_printable_chars(df_processed[col])
 
         logger.info(
             f"generate {internal_filename} where "

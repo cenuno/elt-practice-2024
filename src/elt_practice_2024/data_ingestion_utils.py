@@ -113,7 +113,7 @@ def generate_create_table_statement(
     column_definitions = []
 
     logger.info(
-        f"for each column, create the definition in the format: 'processed_name data_type'"
+        "for each column, create the definition in the format: 'processed_name data_type'"
     )
     for column in columns:
         column_def = f"{column['processed_name']} {column['data_type']}"
@@ -123,7 +123,11 @@ def generate_create_table_statement(
         "join the column definitions with commas and format it inside the CREATE TABLE statement"
     )
     column_definitions_str = ",\n    ".join(column_definitions)
-    create_table_statement = f"CREATE TABLE IF NOT EXISTS {schema_name}.{table_name} (\n    {column_definitions_str}\n);"
+    create_table_statement = f"""
+    CREATE TABLE IF NOT EXISTS {schema_name}.{table_name} (
+        {column_definitions_str}
+    );
+    """
 
     if execute:
         logger.info("open a cursor to perform database operations")
