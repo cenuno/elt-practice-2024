@@ -15,3 +15,4 @@ This ensures that the local import statements remain the same between applicatio
 1. Create `client_data_sources.json` data structure as an array where each element is a dictionary that contains information for different file types for each client.
 2. Create `.py` files that read in `client_data_sources.json` file, download the raw data, and process it.
 3. Ingest the processed data into client specific schemas
+4. Explore `dbt` so that we can start transforming the data
