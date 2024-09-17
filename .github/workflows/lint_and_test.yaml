@@ -6,6 +6,8 @@ on:  # yamllint disable-line rule:truthy
       - main
       - staging
       - 'release/**'
+env:
+  COMPOSE_POSTGRES_HOST=not_host
 jobs:
   lint_and_test:
     runs-on: ubuntu-20.04
@@ -15,7 +17,7 @@ jobs:
         env:
           COMPOSE_PGADMIN_DEFAULT_EMAIL: ${{ secrets.COMPOSE_PGADMIN_DEFAULT_EMAIL }}
           COMPOSE_PGADMIN_DEFAULT_PASSWORD: ${{ secrets.PGADMIN_DEFAULT_PASSWORD }}
-          COMPOSE_POSTGRES_HOST: ${{ secrets.COMPOSE_POSTGRES_HOST }}
+          # COMPOSE_POSTGRES_HOST: ${{ secrets.COMPOSE_POSTGRES_HOST }}
           COMPOSE_POSTGRES_PORT: ${{ secrets.COMPOSE_POSTGRES_PORT }}
           COMPOSE_POSTGRES_DB: ${{ secrets.COMPOSE_POSTGRES_DB }}
           COMPOSE_POSTGRES_SCHEMA: ${{ secrets.COMPOSE_POSTGRES_SCHEMA }}
