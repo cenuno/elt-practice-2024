@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 """
-Test custom logger module
+Test the main data extraction module
 """
 
 import csv
