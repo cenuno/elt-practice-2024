@@ -26,11 +26,18 @@ jobs:
           COMPOSE_POSTGRES_PYTHON_CONNECTION_LIMIT: ${{ secrets.COMPOSE_POSTGRES_PYTHON_CONNECTION_LIMIT }}
       - name: Create a composite environment variable
         run: |
-          echo "COMPOSE_POSTGRES_PYTHON_LIBPQ_CONNECTION_STRING="host=${COMPOSE_POSTGRES_HOST} \
-          port=${COMPOSE_POSTGRES_PORT} \
-          dbname=${COMPOSE_POSTGRES_DB} \
-          user=${COMPOSE_POSTGRES_PYTHON_USER} \
-          password=${COMPOSE_POSTGRES_PYTHON_PASSWORD}" >> $GITHUB_ENV
+          # Construct the composite environment variable
+
+          CONNECTION_STRING="host=${COMPOSE_POSTGRES_HOST} \
+            port=${COMPOSE_POSTGRES_PORT} \
+            dbname=${COMPOSE_POSTGRES_DB} \
+            user=${COMPOSE_POSTGRES_PYTHON_USER} \
+            password=${COMPOSE_POSTGRES_PYTHON_PASSWORD}"
+
+          # Export the composite variable to the GitHub Actions environment
+
+          echo "COMPOSE_POSTGRES_PYTHON_LIBPQ_CONNECTION_STRING=${CONNECTION_STRING}"
+          >> $GITHUB_ENV
       - name: Spin up docker containers
         run: docker compose up --build --force-recreate
       - name: Run linters
