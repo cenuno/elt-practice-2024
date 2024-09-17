@@ -43,8 +43,8 @@ jobs:
             .pre-commit-config.yaml
           docker exec python flake8 src/
           docker exec python vulture src/
-          docker exec black src/ --check
-          docker exec mypy src/elt_practice_2024/
+          docker exec python black src/ --check
+          docker exec python mypy src/elt_practice_2024/
       - name: Run tests
         run: docker exec python pytest .
       - name: Spin down docker services
