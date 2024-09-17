@@ -14,14 +14,15 @@ from client_data_manager import ClientDataManager
 from custom_logger import setup_custom_logger
 from data_ingestion_utils import (
     create_schema,
-    generate_create_table_statement,
+    create_table,
+    copy_file_into_table,
 )
 
 
 def main(
     client_names: List[str],
     file_types: List[str],
-    input_dir: str = os.path.join("data", "output"),
+    source_dir: str = os.path.join("data", "output"),
     log_output_dir: str = os.path.join("logs"),
     client_data_sources_path: Path = Path("client_data_sources.json"),
 ) -> None:
@@ -59,8 +60,8 @@ def main(
             data_path=client_data_sources_path,
         )
         logger.info(f"processing client: {cdm.client_name}")
-        client_dir = os.path.join(input_dir, cdm.client_name)
-        logger.info(f"input dir is: {input_dir}")
+        client_dir = os.path.join(source_dir, cdm.client_name)
+        logger.info(f"input dir is: {source_dir}")
         logger.info(f"file types are: {file_types}")
         logger.info("create a client specific schema if it does not exist")
         schema_name = f"client_{cdm.client_name}"
@@ -75,11 +76,23 @@ def main(
             for file in os.listdir(file_type_dir):
                 logger.info(f"use {file} as table name without the .csv extension")
                 table_name = file.replace(".csv", "")
-                _ = generate_create_table_statement(
+                logger.info("create table for this file")
+                _ = create_table(
                     schema_name=schema_name,
                     table_name=table_name,
                     columns=metadata_columns,
                     conn=conn,
+                    execute=True,
+                )
+                logger.info("create relative file path")
+                file_path = Path(os.path.join(file_type_dir, file))
+                logger.info("copy this file into the recently created table")
+                _ = copy_file_into_table(
+                    file_path=file_path,
+                    schema_name=schema_name,
+                    table_name=table_name,
+                    conn=conn,
+                    truncate=True,
                     execute=True,
                 )
 
@@ -92,7 +105,7 @@ if __name__ == "__main__":
     main(
         client_names=["acme", "hooli"],
         file_types=["membership", "claim"],
-        input_dir=os.path.join("data", "output"),
+        source_dir=os.path.join("data", "output"),
         log_output_dir=os.path.join("logs"),
         client_data_sources_path=Path("client_data_sources.json"),
     )

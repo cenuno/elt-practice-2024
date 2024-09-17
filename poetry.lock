@@ -551,13 +551,13 @@ files = [
 
 [[package]]
 name = "dbt-adapters"
-version = "1.6.0"
+version = "1.6.1"
 description = "The set of adapter protocols and base functionality that supports integration with dbt-core"
 optional = false
 python-versions = ">=3.8.0"
 files = [
-    {file = "dbt_adapters-1.6.0-py3-none-any.whl", hash = "sha256:fdda113eaae4d4e31c42257c4d68e94d1bd3519476b3326c4d859d3f33278cfc"},
-    {file = "dbt_adapters-1.6.0.tar.gz", hash = "sha256:ac3b73b28691d95a9b56b70dae5a0e2e989bf539d601984cfcd3e868462cf037"},
+    {file = "dbt_adapters-1.6.1-py3-none-any.whl", hash = "sha256:6a09da3c6d11ef1b9ec4c44bbd8258294e0e0f9a2e0017adbe7f0234b23aa7ee"},
+    {file = "dbt_adapters-1.6.1.tar.gz", hash = "sha256:6953a4133c2701eb989c3ffe950b0500f328e86283ec0658452ab237ebdb9b35"},
 ]
 
 [package.dependencies]
