@@ -1,5 +1,5 @@
 ---
-name: Lint and Test
+name: Lint and Test through Docker
 on:  # yamllint disable-line rule:truthy
   pull_request:
     branches:
