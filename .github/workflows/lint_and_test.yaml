@@ -1,0 +1,51 @@
+---
+name: Lint and Test through Docker
+on:  # yamllint disable-line rule:truthy
+  pull_request:
+    branches:
+      - main
+      - staging
+      - 'release/**'
+env:
+  COMPOSE_PGADMIN_DEFAULT_EMAIL: ${{ secrets.COMPOSE_PGADMIN_DEFAULT_EMAIL }}
+  COMPOSE_PGADMIN_DEFAULT_PASSWORD: ${{ secrets.COMPOSE_PGADMIN_DEFAULT_PASSWORD }}
+  COMPOSE_POSTGRES_HOST: ${{ secrets.COMPOSE_POSTGRES_HOST }}
+  COMPOSE_POSTGRES_PORT: ${{ secrets.COMPOSE_POSTGRES_PORT }}
+  COMPOSE_POSTGRES_DB: ${{ secrets.COMPOSE_POSTGRES_DB }}
+  COMPOSE_POSTGRES_SCHEMA: ${{ secrets.COMPOSE_POSTGRES_SCHEMA }}
+  COMPOSE_POSTGRES_ADMIN_USER: ${{ secrets.COMPOSE_POSTGRES_ADMIN_USER }}
+  COMPOSE_POSTGRES_ADMIN_PASSWORD: ${{ secrets.COMPOSE_POSTGRES_ADMIN_PASSWORD }}
+  COMPOSE_POSTGRES_PYTHON_USER: ${{ secrets.COMPOSE_POSTGRES_PYTHON_USER }}
+  COMPOSE_POSTGRES_PYTHON_PASSWORD: ${{ secrets.COMPOSE_POSTGRES_PYTHON_PASSWORD }}
+  COMPOSE_POSTGRES_PYTHON_LIBPQ_CONNECTION_STRING: ${{ secrets.COMPOSE_POSTGRES_PYTHON_LIBPQ_CONNECTION_STRING }}
+  COMPOSE_POSTGRES_PYTHON_CONNECTION_LIMIT: ${{ secrets.COMPOSE_POSTGRES_PYTHON_CONNECTION_LIMIT }}
+
+jobs:
+  lint_and_test:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout repo and set environment variables
+        uses: actions/checkout@v4
+      - name: Spin up docker containers
+        run: docker compose up --build --force-recreate --detach
+      - name: Wait a few seconds to allow services to be functional
+        run: sleep 6s
+      - name: Run linters
+        run: |
+          docker exec python hadolint \
+            Dockerfile.python \
+            Dockerfile.postgres \
+            Dockerfile.pgadmin
+          docker exec python yamllint \
+            compose.yml \
+            .github/workflows/lint_and_test.yaml \
+            .hadolint.yaml \
+            .pre-commit-config.yaml
+          docker exec python flake8 src/
+          docker exec python vulture src/
+          docker exec python black src/ --check
+          docker exec python mypy src/elt_practice_2024/
+      - name: Run tests
+        run: docker exec python pytest .
+      - name: Spin down docker services
+        run: docker compose down

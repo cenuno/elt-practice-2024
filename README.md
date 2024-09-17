@@ -20,8 +20,8 @@ This project assumes you have the following:
       | Kubernetes | 1.30.2 |
 * A Unix-like operating system
 * Ability to run commands from the command line, specifically entering a docker container from the command line.
-* You've copied all of the `*_env_copy` files and created new files without the `_copy` suffix. Example command of `cp .pgadmin_env_copy .pgadmin`
-* Within each of your personal `*_env` files, you've modified the credentials to be that of your own.
+* You've copied `.env_copy` file and created new file without the `_copy` suffix. Example command of `cp .env_copy .env`
+* Within `.env` file, you've modified the credentials to be that of your own.
 
 
 ### Use of Poetry for Python Packaging & Depdency Management

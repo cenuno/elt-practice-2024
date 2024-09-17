@@ -86,8 +86,16 @@ def test_download_and_process_known_file_types(tmp_path):
         files = cdm.get_files_by_type(file_type=file_type)
         for file in files:
             # NOTE: store relative paths
-            input_file_path = Path(os.path.join(INPUT_DIR, file["external_filename"]))
-            output_file_path = Path(os.path.join(OUTPUT_DIR, file["internal_filename"]))
+            input_file_path = Path(
+                os.path.join(
+                    INPUT_DIR, cdm.client_name, file_type, file["external_filename"]
+                )
+            )
+            output_file_path = Path(
+                os.path.join(
+                    OUTPUT_DIR, cdm.client_name, file_type, file["internal_filename"]
+                )
+            )
             input_files.append(input_file_path)
             output_files.append(output_file_path)
 
@@ -102,12 +110,13 @@ def test_download_and_process_known_file_types(tmp_path):
         overwrite_process=OVERWRITE_PROCESS,
     )
 
-    # NOTE: for each file, determine that it exists
-    check_input_files = [input_file.is_file() for input_file in input_files]
-    check_output_files = [output_file.is_file() for output_file in output_files]
-
-    assert all(check_input_files), "Not all input files were found"
-    assert all(check_output_files), "Not all output files were found"
+    # NOTE: ensure each file was truly created
+    for input_file, output_file in zip(input_files, output_files):
+        assert input_file.is_file(), f"{input_file} does not exist"
+        assert output_file.is_file(), f"{output_file} does not exist"
+        # NOTE: delete files so that we don't have to worry about it
+        input_file.unlink()
+        output_file.unlink()
 
 
 def test_download_and_process_unknown_file_types(tmp_path):
@@ -168,8 +177,16 @@ def test_download_and_process_all_file(tmp_path):
         files = cdm.get_files_by_type(file_type=file_type)
         for file in files:
             # NOTE: store relative paths
-            input_file_path = Path(os.path.join(INPUT_DIR, file["external_filename"]))
-            output_file_path = Path(os.path.join(OUTPUT_DIR, file["internal_filename"]))
+            input_file_path = Path(
+                os.path.join(
+                    INPUT_DIR, cdm.client_name, file_type, file["external_filename"]
+                )
+            )
+            output_file_path = Path(
+                os.path.join(
+                    OUTPUT_DIR, cdm.client_name, file_type, file["internal_filename"]
+                )
+            )
             input_files.append(input_file_path)
             output_files.append(output_file_path)
 
@@ -184,10 +201,10 @@ def test_download_and_process_all_file(tmp_path):
         overwrite_process=OVERWRITE_PROCESS,
     )
 
-    # NOTE: for each file, determine that it exists
-    check_input_files = [input_file.is_file() for input_file in input_files]
-    check_output_files = [output_file.is_file() for output_file in output_files]
-    print(input_files, check_input_files, output_files, check_output_files)
-
-    assert all(check_input_files), "Not all input files were found"
-    assert all(check_output_files), "Not all output files were found"
+    # NOTE: ensure each file was truly created
+    for input_file, output_file in zip(input_files, output_files):
+        assert input_file.is_file(), f"{input_file} does not exist"
+        assert output_file.is_file(), f"{output_file} does not exist"
+        # NOTE: delete files so that we don't have to worry about it
+        input_file.unlink()
+        output_file.unlink()

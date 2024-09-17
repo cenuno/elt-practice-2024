@@ -30,14 +30,14 @@ def main(
 
     :param client_names: List[str] - List of client names to process
     :param file_types: Optional[List[str]] - List of file types to process. If None, all types are processed
-    :param input_dir: str - Directory to download files to
-    :param output_dir: str - Directory to store processed files
+    :param input_dir: str - parent directory to download files to
+    :param output_dir: str - parent directory to store processed files
     :param sep: str - Delimiter used in CSV files
     :param quoting: int - CSV quoting option
     :param overwrite_download: bool - Flag to overwrite downloaded files
     :param overwrite_process: bool - Flag to overwrite processed files
     :param log_output_dir: str - Directory for storing logs
-    :param client_data_sources_path: str - Path to client data sources JSON
+    :param client_data_sources_path: Path - Path to client data sources JSON
     :param current_script_filename: Optional[str] - Name of the current script for logging purposes
     """
 
@@ -54,7 +54,7 @@ def main(
         logger.info(f"Processing client: {client_name}")
         cdm = ClientDataManager(
             client_name=client_name,
-            data_path=Path(client_data_sources_path),
+            data_path=client_data_sources_path,
         )
 
         # Download and process files
