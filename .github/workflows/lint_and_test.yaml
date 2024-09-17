@@ -8,7 +8,7 @@ on:  # yamllint disable-line rule:truthy
       - 'release/**'
 env:
   COMPOSE_PGADMIN_DEFAULT_EMAIL: ${{ secrets.COMPOSE_PGADMIN_DEFAULT_EMAIL }}
-  COMPOSE_PGADMIN_DEFAULT_PASSWORD: ${{ secrets.PGADMIN_DEFAULT_PASSWORD }}
+  COMPOSE_PGADMIN_DEFAULT_PASSWORD: ${{ secrets.COMPOSE_PGADMIN_DEFAULT_PASSWORD }}
   COMPOSE_POSTGRES_HOST: ${{ secrets.COMPOSE_POSTGRES_HOST }}
   COMPOSE_POSTGRES_PORT: ${{ secrets.COMPOSE_POSTGRES_PORT }}
   COMPOSE_POSTGRES_DB: ${{ secrets.COMPOSE_POSTGRES_DB }}
@@ -17,6 +17,7 @@ env:
   COMPOSE_POSTGRES_ADMIN_PASSWORD: ${{ secrets.COMPOSE_POSTGRES_ADMIN_PASSWORD }}
   COMPOSE_POSTGRES_PYTHON_USER: ${{ secrets.COMPOSE_POSTGRES_PYTHON_USER }}
   COMPOSE_POSTGRES_PYTHON_PASSWORD: ${{ secrets.COMPOSE_POSTGRES_PYTHON_PASSWORD }}
+  COMPOSE_POSTGRES_PYTHON_LIBPQ_CONNECTION_STRING: ${{ secrets.COMPOSE_POSTGRES_PYTHON_LIBPQ_CONNECTION_STRING }}
   COMPOSE_POSTGRES_PYTHON_CONNECTION_LIMIT: ${{ secrets.COMPOSE_POSTGRES_PYTHON_CONNECTION_LIMIT }}
 
 jobs:
@@ -25,20 +26,6 @@ jobs:
     steps:
       - name: Checkout repo and set environment variables
         uses: actions/checkout@v4
-      - name: Create a composite environment variable
-        run: |
-          # Construct the composite environment variable
-
-          CONNECTION_STRING="host=${COMPOSE_POSTGRES_HOST} \
-            port=${COMPOSE_POSTGRES_PORT} \
-            dbname=${COMPOSE_POSTGRES_DB} \
-            user=${COMPOSE_POSTGRES_PYTHON_USER} \
-            password=${COMPOSE_POSTGRES_PYTHON_PASSWORD}"
-
-          # Export the composite variable to the GitHub Actions environment
-
-          echo "COMPOSE_POSTGRES_PYTHON_LIBPQ_CONNECTION_STRING=${CONNECTION_STRING}"
-          >> $GITHUB_ENV
       - name: Spin up docker containers
         run: docker compose up --build --force-recreate
       - name: Run linters
