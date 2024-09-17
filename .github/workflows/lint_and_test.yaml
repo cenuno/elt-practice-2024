@@ -27,7 +27,9 @@ jobs:
       - name: Checkout repo and set environment variables
         uses: actions/checkout@v4
       - name: Spin up docker containers
-        run: docker compose up --build --force-recreate
+        run: docker compose up --build --force-recreate --detach
+      - name: Wait a few seconds to allow services to be functional
+        run: sleep 6s
       - name: Run linters
         run: |
           docker exec python hadolint \
