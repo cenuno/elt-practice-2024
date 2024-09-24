@@ -11,6 +11,18 @@ psql -U $POSTGRES_USER -d $POSTGRES_DB \
     -v postgres_python_connection_limit=$POSTGRES_PYTHON_CONNECTION_LIMIT <<< \
     "CREATE ROLE :postgres_python_user WITH LOGIN PASSWORD :'postgres_python_password' CONNECTION LIMIT :postgres_python_connection_limit;"
 
+echo "create a schema to be used for dbt"
+psql -U $POSTGRES_USER -d $POSTGRES_DB \
+    -v postgres_schema=$POSTGRES_SCHEMA \
+    -v postgres_python_user=$POSTGRES_PYTHON_USER <<< \
+    "CREATE SCHEMA IF NOT EXISTS :postgres_schema AUTHORIZATION :postgres_python_user;"
+
+echo "ensure service account user has all permissions on this schema"
+psql -U $POSTGRES_USER -d $POSTGRES_DB \
+    -v postgres_schema=$POSTGRES_SCHEMA \
+    -v postgres_python_user=$POSTGRES_PYTHON_USER <<< \
+    "ALTER DEFAULT PRIVILEGES IN SCHEMA :postgres_schema GRANT ALL ON TABLES TO :postgres_python_user;"
+
 echo "ensure service account user can create different schemas"
 psql -U $POSTGRES_USER -d $POSTGRES_DB \
     -v postgres_db=$POSTGRES_DB \
