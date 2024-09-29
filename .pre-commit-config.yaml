@@ -29,11 +29,20 @@ repos:
             # https://pre-commit.com/#top_level-default_language_version
             language_version: python3.12.5
     - repo: https://github.com/jendrikseipp/vulture
-      rev: 'v2.11'  # or any later Vulture version
+      rev: v2.11  # or any later Vulture version
       hooks:
           - id: vulture
     - repo: https://github.com/pre-commit/mirrors-mypy
-      rev: 'v1.11.1'
+      rev: v1.11.1
       hooks:
           - id: mypy
             additional_dependencies: ["types-requests==2.32.0.20240712"]
+    - repo: https://github.com/sqlfluff/sqlfluff
+      rev: 3.2.0
+      hooks:
+          - id: sqlfluff-lint
+            # For dbt projects, this installs the dbt "extras".
+            # You will need to select the relevant dbt adapter for your dialect
+            # (https://docs.getdbt.com/docs/available-adapters):
+            additional_dependencies: ['dbt-postgres==1.8.2', 'sqlfluff-templater-dbt']
+            exclude: "src/elt_dbt/dbt_packages|src/elt_dbt/models/example"
