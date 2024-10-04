@@ -1,12 +1,16 @@
 {% macro clean_date_of_birth(column) %}
-    CASE
+    case
         -- NOTE: impossible to be born after the current year
-        WHEN SPLIT_PART({{ column }}, ' ', 2) <> '00:00:00' AND SPLIT_PART({{ column }}, ', ', 2)::INT > TO_CHAR(CURRENT_DATE, 'YYYY')::INT 
-            THEN NULL
-        WHEN SPLIT_PART({{ column }}, ' ', 2) <> '00:00:00' AND SPLIT_PART({{ column }}, ', ', 2)::INT <= TO_CHAR(CURRENT_DATE, 'YYYY')::INT 
-            THEN TO_DATE({{ column }}, 'Month DD, YYYY') 
-        WHEN SPLIT_PART({{ column }}, ' ', 2) = '00:00:00'
-            THEN TO_DATE(SUBSTRING({{ column }}, 1, 10), 'YYYY-MM-DD')
-        ELSE NULL
-    END
+        when
+            split_part({{ column }}, ' ', 2) <> '00:00:00'
+            and split_part({{ column }}, ', ', 2)::int > to_char(current_date, 'YYYY')::int
+        then null
+        when
+            split_part({{ column }}, ' ', 2) <> '00:00:00'
+            and split_part({{ column }}, ', ', 2)::int <= to_char(current_date, 'YYYY')::int
+        then to_date({{ column }}, 'Month DD, YYYY')
+        when split_part({{ column }}, ' ', 2) = '00:00:00'
+        then to_date(substring({{ column }}, 1, 10), 'YYYY-MM-DD')
+        else null
+    end
 {% endmacro %}

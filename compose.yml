@@ -72,13 +72,43 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    ports:
-      - 8050:8050
     volumes:
       - ./:/elt-practice-2024/
       - python_volume:/project_data/
-
+  dbt:
+    container_name: dbt
+    build:
+      dockerfile: Dockerfile.dbt
+    environment:
+      DBT_POSTGRES_SCHEMA: ${COMPOSE_DBT_POSTGRES_SCHEMA}
+      DBT_POSTGRES_USER: ${COMPOSE_DBT_POSTGRES_USER}
+      DBT_POSTGRES_PASSWORD: ${COMPOSE_DBT_POSTGRES_PASSWORD}
+      DBT_POSTGRES_DB: ${COMPOSE_POSTGRES_DB}
+      DBT_POSTGRES_PORT: ${COMPOSE_POSTGRES_PORT}
+      DBT_POSTGRES_HOST: ${COMPOSE_POSTGRES_HOST}
+      DBT_POSTGRES_CONNECTION_LIMIT: ${COMPOSE_DBT_POSTGRES_CONNECTION_LIMIT}
+    healthcheck:
+      test: ["CMD-SHELL", "dbt debug || exit 1"]
+      interval: 2s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      python:
+        condition: service_healthy
+    volumes:
+      - ./src/elt_dbt/:/usr/app
+      - ./src/elt_dbt/profiles.yml:/root/.dbt/profiles.yml
+  nginx:
+    container_name: nginx
+    build:
+      dockerfile: Dockerfile.nginx
+    depends_on:
+      python:
+        condition: service_healthy
+    ports:
+      - 3000:80
 volumes:
   python_volume:
   postgres_volume:
   pgadmin_volume:
+  dbt_volume:

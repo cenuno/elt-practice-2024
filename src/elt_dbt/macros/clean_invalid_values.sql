@@ -1,7 +1,3 @@
 {% macro clean_invalid_values(column, invalid_values) %}
-    CASE
-        WHEN {{ column }} IN ({{ invalid_values | join(', ') }})
-            THEN NULL
-        ELSE {{ column }}
-    END
+    case when {{ column }} in ({{ invalid_values | join(", ") }}) then null else {{ column }} end
 {% endmacro %}

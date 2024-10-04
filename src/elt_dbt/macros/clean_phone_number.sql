@@ -1,9 +1,9 @@
 {% macro clean_phone_number(column) %}
-    CASE
-        WHEN LENGTH({{ column }}) = 10
-                    THEN '1' || {{column}}
-        WHEN LENGTH({{ column }}) = 11
-                    THEN {{ column }}
-        ELSE NULL
-    END
+    case
+        when length({{ column }}) = 10
+        then '1' || {{ column }}
+        when length({{ column }}) = 11
+        then {{ column }}
+        else null
+    end
 {% endmacro %}
