@@ -48,9 +48,9 @@ where
 
         -- Only insert or update records that are newer than the last loaded data
         and cm.modified_on > (
-            select max(modified_on)
+            select max(this.modified_on)
             -- The current table being updated incrementally
-            from {{ this }}
+            from {{ this }} as this
         )
 
     {% endif %}
