@@ -1,3 +1,9 @@
+{% docs view_stg_client_acme__stacked_members %}
+
+This view stacks all the `_membership_YYYYMMD` tables together in `client_acme` schema.
+
+{% enddocs %}
+
 {% docs column_member_first_name %}
 
 Member's first name

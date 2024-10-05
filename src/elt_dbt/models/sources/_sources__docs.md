@@ -1,8 +1,3 @@
-{% docs table_member %}
-
-This table contains one row per member id where we only keep the latest record based on `membership_end_date` across all `_membership_YYYYMMD` tables.
-
-{% enddocs %}
 
 {% docs column_member_id %}
 
@@ -127,17 +122,5 @@ The total billed amount refers to the total cost of all services, treatments, pr
 {% docs column_processing_status %}
 
 The processing status refers to the current stage in the insurance claim’s lifecycle, indicating whether the claim has been reviewed, approved, denied, or is still under evaluation. It helps track how far along the claim is in being resolved.
-
-{% enddocs %}
-
-{% docs source_information_schema_description %}
-
-The information schema consists of a set of views that contain information about the objects defined in the current database. The information schema is defined in the SQL standard and can therefore be expected to be portable and remain stable
-
-{% enddocs %}
-
-{% docs source_information_schema_table_tables_description %}
-
-The view tables contains all tables and views defined in the current database. Only those tables and views are shown that the current user has access to (by way of being the owner or having some privilege).
 
 {% enddocs %}

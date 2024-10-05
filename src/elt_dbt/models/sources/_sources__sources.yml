@@ -2,20 +2,6 @@
 version: 2
 
 sources:
-  - name: information_schema
-    description: '{{ doc("source_information_schema_description") }}'
-    database: "{{ env_var('DBT_POSTGRES_DB') }}"
-    schema: information_schema
-    tables:
-      - name: tables
-        description: '{{ doc("source_information_schema_table_tables_description") }}'
-        columns:
-          - name: table_catalog
-            data_type: varchar
-          - name: table_schema
-            data_type: varchar
-          - name: table_name
-            data_type: varchar
   - name: client_acme
     description: '{{ doc("source_client_acme_description") }}'
     database: "{{ env_var('DBT_POSTGRES_DB') }}"

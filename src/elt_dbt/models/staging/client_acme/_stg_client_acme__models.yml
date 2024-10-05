@@ -1,29 +1,16 @@
 ---
 version: 2
 models:
-- name: member
-  description: '{{ doc("table_member") }}'
-  
-  config:
-    contract:
-      enforced: true
-  
-  constraints:
-    - type: primary_key
-      columns: [member_id]
+- name: stg_client_acme__stacked_members
+  description: '{{ doc("view_stg_client_acme__stacked_members") }}'
 
   columns:
     - name: member_id
       description: '{{ doc("column_member_id") }}'
       data_type: int
-      constraints:
-        - type: not_null
-        - type: unique
     - name: client_id
       description: '{{ doc("column_client_id") }}'
       data_type: int
-      constraints:
-        - type: not_null
     - name: membership_end_date
       description: '{{ doc("column_membership_end_date") }}'
       data_type: date

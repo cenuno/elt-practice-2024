@@ -32,5 +32,9 @@ flags:
 
 models:
   elt_dbt:
-    client_acme:
-      +schema: client_acme
+    staging:
+      client_acme:
+        +schema: stg_client_acme
+    intermediate:
+      client_acme:
+          +schema: int_client_acme

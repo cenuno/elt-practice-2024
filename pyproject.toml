@@ -165,5 +165,4 @@ extended_capitalisation_policy = "lower"
 
 [tool.sqlfmt]
 line_length = 120
-check = true
 dialect = "polyglot"
