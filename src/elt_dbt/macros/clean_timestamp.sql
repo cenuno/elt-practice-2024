@@ -1,4 +1,4 @@
-{% macro clean_membership_end_date(date_column, invalid_dates) %}
+{% macro clean_timestamp(date_column, invalid_dates) %}
     case
         when {{ date_column }} in ({{ invalid_dates | join(", ") }})
         -- NOTE: account for non-existent date stamps

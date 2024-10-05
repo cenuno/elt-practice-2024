@@ -3,6 +3,7 @@
         materialized="incremental",
         unique_key=["member_id"],
         on_schema_change="append_new_columns",
+        tags=["client_acme", "int", "contains_pii", "members"]
     )
 }}
 

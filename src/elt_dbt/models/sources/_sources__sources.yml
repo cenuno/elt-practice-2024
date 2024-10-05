@@ -9,6 +9,10 @@ sources:
     tables:
       - name: processed_acme_patient_claim_202307
         loaded_at_field: modified_on
+        tags:
+          - client_acme
+          - source
+          - claims
         columns:
           - name: claim_category
             description: '{{ doc("column_claim_category") }}'
@@ -52,7 +56,6 @@ sources:
             data_type: varchar
             data_tests:
               - not_null
-            data_type: varchar
           - name: internal_filename
             description: '{{ doc("column_internal_filename") }}'
             data_type: varchar
@@ -67,6 +70,10 @@ sources:
             data_type: varchar
       - name: processed_acme_patient_claim_202308
         loaded_at_field: modified_on
+        tags:
+          - client_acme
+          - source
+          - claims
         columns:
           - name: claim_category
             description: '{{ doc("column_claim_category") }}'
@@ -125,6 +132,11 @@ sources:
             data_type: varchar
       - name: processed_acme_patient_membership_202307
         loaded_at_field: modified_on
+        tags:
+          - client_acme
+          - source
+          - contains_pii
+          - members
         columns:
           - name: member_id
             description: '{{ doc("column_member_id") }}'
@@ -189,6 +201,11 @@ sources:
             data_type: varchar
       - name: processed_acme_patient_membership_202308
         loaded_at_field: modified_on
+        tags:
+          - client_acme
+          - source
+          - contains_pii
+          - members
         columns:
           - name: member_id
             description: '{{ doc("column_member_id") }}'
