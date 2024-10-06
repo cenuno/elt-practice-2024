@@ -49,7 +49,7 @@ The timestamp when we updated a particular member. If no update has occurred, th
 
 {% docs column_relation_name %}
 
-The name of the relation in schema.table_name format that data originated from in the database.
+The name of the relation (table/view) that data originated from in the database. This is helpful given the stacking/row-binding that occurs with the cadence of client given files.
 
 {% enddocs %}
 

@@ -36,7 +36,7 @@ models:
       data_type: varchar
     - name: total_billed
       description: '{{ doc("column_total_billed") }}'
-      data_type: varchar
+      data_type: decimal
     - name: processing_status
       description: '{{ doc("column_processing_status") }}'
       data_type: varchar
@@ -56,6 +56,9 @@ models:
       data_type: varchar
     - name: modified_on
       description: '{{ doc("column_modified_on") }}'
+      data_type: varchar
+    - name: relation_name
+      description: '{{ doc("column_relation_name") }}'
       data_type: varchar
 
 - name: stg_client_acme__stacked_members

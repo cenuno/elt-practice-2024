@@ -10,7 +10,7 @@ models:
   
   constraints:
     - type: primary_key
-      columns: [member_id, claim_number]
+      columns: [claim_number]
     
   columns:
     - name: member_id
@@ -51,15 +51,16 @@ models:
       data_type: varchar
     - name: total_billed
       description: '{{ doc("column_total_billed") }}'
-      data_type: varchar
+      data_type: decimal
     - name: processing_status
       description: '{{ doc("column_processing_status") }}'
       data_type: varchar
     - name: client_name
       description: '{{ doc("column_client_name") }}'
+      data_type: varchar
     - name: client_id
       description: '{{ doc("column_client_id") }}'
-      data_type: varchar
+      data_type: int
     - name: internal_filename
       description: '{{ doc("column_internal_filename") }}'
       data_type: varchar
@@ -68,9 +69,12 @@ models:
       data_type: varchar
     - name: created_on
       description: '{{ doc("column_created_on") }}'
-      data_type: varchar
+      data_type: timestamp with time zone
     - name: modified_on
       description: '{{ doc("column_modified_on") }}'
+      data_type: timestamp with time zone
+    - name: relation_name
+      description: '{{ doc("column_relation_name") }}'
       data_type: varchar
 
 - name: int_client_acme__member

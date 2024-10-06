@@ -1,7 +1,7 @@
 {{
     config(
         materialized="incremental",
-        unique_key=["member_id", "claim_number"],
+        unique_key=["claim_number"],
         on_schema_change="append_new_columns",
         tags=["client_acme", "int", "claims"]
     )
