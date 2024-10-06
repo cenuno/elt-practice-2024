@@ -1,9 +1,4 @@
-{{
-    config(
-        materialized="view",
-        tags=["client_acme", "stg", "claims"]
-    )
-}}
+{{ config(materialized="view", tags=["client_acme", "stg", "claims"]) }}
 
 -- NOTE: stack all the tables that share the same prefix via UNION ALL
 -- AND select and clean particular columns

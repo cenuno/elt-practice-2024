@@ -117,7 +117,6 @@ sources:
             data_type: varchar
             data_tests:
               - not_null
-            data_type: varchar
           - name: internal_filename
             description: '{{ doc("column_internal_filename") }}'
             data_type: varchar
@@ -186,7 +185,6 @@ sources:
             data_type: varchar
             data_tests:
               - not_null
-            data_type: varchar
           - name: internal_filename
             description: '{{ doc("column_internal_filename") }}'
             data_type: varchar
@@ -255,7 +253,6 @@ sources:
             data_type: varchar
             data_tests:
               - not_null
-            data_type: varchar
           - name: internal_filename
             description: '{{ doc("column_internal_filename") }}'
             data_type: varchar
