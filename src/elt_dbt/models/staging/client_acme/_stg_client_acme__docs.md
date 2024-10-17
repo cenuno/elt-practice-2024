@@ -70,6 +70,3 @@ Member's phone number
 Member's ethnicity
 
 {% enddocs %}
-
-{}
-

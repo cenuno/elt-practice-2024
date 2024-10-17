@@ -1,3 +1,38 @@
+{% docs source_client_acme_description %}
+
+Client Acme specific schema that contains member and claim information on a monthly basis
+
+{% enddocs %}
+
+{% docs source_client_hooli_description %}
+
+Client Hooli specific schema that contains member and claim information on a monthly basis
+
+{% enddocs %}
+
+{% docs column_eligibility_date %}
+
+The eligibility date is the start date on which the patient became eligible to receive benefits under the insurance plan. From this date forward, the patient is covered, meaning that any claims for healthcare services received on or after the eligibility date will be considered for reimbursement by the insurance company (assuming the services are covered under the plan).
+
+{% enddocs %}
+
+{% docs column_column_age_in_mths_no %}
+
+The age of the member in the number of months (i.e. value of 12 represents 12 months which is equivalent to an age of 1 year old)
+
+{% enddocs %}
+
+{% docs column_member_address1 %}
+
+Street address of the member
+
+{% enddocs %}
+
+{% docs column_member_address2 %}
+
+Apartment, unit, or suite number
+
+{% enddocs %}
 
 {% docs column_member_id %}
 
@@ -13,7 +48,7 @@ Client ID that uniquely identifies client acme.
 
 {% docs column_membership_end_date %}
 
-Member id given to us by client acme
+The member end date is the date on which a patient's membership in the insurance plan is set to expire or has already ended. After this date, the patient is no longer covered by the insurance plan, meaning the insurance company will no longer pay for healthcare claims made after this point (unless the patient renews or switches plans).
 
 {% enddocs %}
 
@@ -56,12 +91,6 @@ The name of the relation (table/view) that data originated from in the database.
 {% docs column_date_of_birth %}
 
 Member's date of birth
-
-{% enddocs %}
-
-{% docs source_client_acme_description %}
-
-Client specific schema that contains member and claim information on a monthly basis
 
 {% enddocs %}
 
