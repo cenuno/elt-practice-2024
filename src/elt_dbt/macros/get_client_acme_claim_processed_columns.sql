@@ -9,7 +9,7 @@
     "coding_system",
     "code",
     "primary_diagnosis",
-    cast("total_billed" as decimal(20, 10)) AS total_billed,
+    cast("total_billed" as decimal(20, 10)) as total_billed,
     "processing_status",
     "client_name",
     "internal_filename",

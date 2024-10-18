@@ -4,7 +4,7 @@ version: 2
 sources:
   - name: client_hooli
     description: '{{ doc("source_client_hooli_description") }}'
-    database: '{{ env_var("DBT_POSTGRES_DBT") }}'
+    database: '{{ env_var("DBT_POSTGRES_DB") }}'
     schema: client_hooli
     tables:
       - name: processed_hooli_patient_membership_202307
@@ -131,7 +131,7 @@ sources:
             data_type: varchar
   - name: client_acme
     description: '{{ doc("source_client_acme_description") }}'
-    database: '{{ env_var("DBT_POSTGRES_DB") }}''
+    database: '{{ env_var("DBT_POSTGRES_DB") }}'
     schema: client_acme
     tables:
       - name: processed_acme_patient_claim_202307
@@ -191,10 +191,10 @@ sources:
             data_type: varchar
           - name: created_on
             description: '{{ doc("column_created_on") }}'
-            data_type: varchar
+            data_type: timestamp with timezone
           - name: modified_on
             description: '{{ doc("column_modified_on") }}'
-            data_type: varchar
+            data_type: timestamp with timezone
       - name: processed_acme_patient_claim_202308
         loaded_at_field: modified_on
         tags:
@@ -252,10 +252,10 @@ sources:
             data_type: varchar
           - name: created_on
             description: '{{ doc("column_created_on") }}'
-            data_type: varchar
+            data_type: timestamp with timezone
           - name: modified_on
             description: '{{ doc("column_modified_on") }}'
-            data_type: varchar
+            data_type: timestamp with timezone
       - name: processed_acme_patient_membership_202307
         loaded_at_field: modified_on
         tags:
@@ -320,10 +320,10 @@ sources:
             data_type: varchar
           - name: created_on
             description: '{{ doc("column_created_on") }}'
-            data_type: varchar
+            data_type: timestamp with timezone
           - name: modified_on
             description: '{{ doc("column_modified_on") }}'
-            data_type: varchar
+            data_type: timestamp with timezone
       - name: processed_acme_patient_membership_202308
         loaded_at_field: modified_on
         tags:
@@ -388,7 +388,7 @@ sources:
             data_type: varchar
           - name: created_on
             description: '{{ doc("column_created_on") }}'
-            data_type: varchar
+            data_type: timestamp with timezone
           - name: modified_on
             description: '{{ doc("column_modified_on") }}'
-            data_type: varchar
+            data_type: timestamp with timezone

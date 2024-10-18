@@ -16,7 +16,7 @@ The eligibility date is the start date on which the patient became eligible to r
 
 {% enddocs %}
 
-{% docs column_column_age_in_mths_no %}
+{% docs column_age_in_mths_no %}
 
 The age of the member in the number of months (i.e. value of 12 represents 12 months which is equivalent to an age of 1 year old)
 

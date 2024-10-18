@@ -1,0 +1,20 @@
+{% macro get_client_hooli_membership_processed_columns() %}
+    cast({{ clean_invalid_values("eligibility_date", ["'11/31/2023'"]) }} as date) as "eligibility_date",
+    cast("member_id" as int) as "member_id",
+    "member_fullname",
+    {{ clean_date_of_birth("date_of_birth") }} as "date_of_birth",
+    cast("age_in_mths_no" as int) as "age_in_mths_no",
+    "gender",
+    "member_address_1",
+    "member_address_2",
+    "member_city",
+    {{ clean_invalid_values("member_state", ["'88'", "'ZZ'"]) }} as "member_state",
+    {{ clean_invalid_values("member_zip", ["'777TR'", "'RTEFG'", "'123TY'"]) }} as "member_zip",
+    {{ clean_phone_number("member_phone") }} as "member_phone",
+    "client_name",
+    "client_id",
+    "internal_filename",
+    "external_filename",
+    "created_on",
+    "modified_on"
+{% endmacro %}
