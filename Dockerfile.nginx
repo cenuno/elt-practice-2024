@@ -7,9 +7,6 @@ RUN rm -rf /usr/share/nginx/html/*
 # Copy custom Nginx config
 COPY ./nginx.conf /etc/nginx/nginx.conf
 
-# Copy the DBT docs from the local directory to the Nginx web directory
-COPY ./src/elt_dbt/target /usr/share/nginx/html
-
 # Expose port 3000 to access the documentation
 EXPOSE 3000
 
