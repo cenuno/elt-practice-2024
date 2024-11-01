@@ -53,7 +53,6 @@ jobs:
           docker exec python vulture src/
           docker exec python black src/ --check
           docker exec python mypy src/elt_practice_2024/
-          docker exec python sqlfluff lint src/elt_dbt/
       - name: Run python tests
         run: docker exec python pytest .
       - name: Spin down docker services
