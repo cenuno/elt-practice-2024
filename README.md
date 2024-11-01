@@ -7,7 +7,9 @@ Using Docker, let's:
 
 1. Download data from the cloud
 2. Ingest that data into a postgres database
-3. Use DBT to transform that data
+3. Use DBT to transform that data to acquire data lineage from source data through our staging zone, our intermediate zone, and ultimately our data mart zone.
+
+![DBT Data Lineage DAG](images/dbt_data_lineage_dag.png)
 
 Along the way we'll use `pytest` and a variety of linters and formatters to make sure that this code could help others quickly learn best practices.
 
