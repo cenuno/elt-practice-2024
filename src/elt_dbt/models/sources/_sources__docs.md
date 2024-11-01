@@ -22,13 +22,13 @@ The age of the member in the number of months (i.e. value of 12 represents 12 mo
 
 {% enddocs %}
 
-{% docs column_member_address1 %}
+{% docs column_member_address_1 %}
 
 Street address of the member
 
 {% enddocs %}
 
-{% docs column_member_address2 %}
+{% docs column_member_address_2 %}
 
 Apartment, unit, or suite number
 
@@ -151,5 +151,11 @@ The total billed amount refers to the total cost of all services, treatments, pr
 {% docs column_processing_status %}
 
 The processing status refers to the current stage in the insurance claim’s lifecycle, indicating whether the claim has been reviewed, approved, denied, or is still under evaluation. It helps track how far along the claim is in being resolved.
+
+{% enddocs %}
+
+{% docs column_member_fullname %}
+
+Last name, first name of member
 
 {% enddocs %}

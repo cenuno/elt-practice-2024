@@ -22,8 +22,8 @@ sources:
             data_type: varchar
             data_tests:
               - not_null
-          - name: member_full_name
-            description: '{{ doc("column_member_first_name") }}'
+          - name: member_fullname
+            description: '{{ doc("column_member_fullname") }}'
             data_type: varchar
           - name: date_of_birth
             description: '{{ doc("column_date_of_birth") }}'
@@ -35,10 +35,10 @@ sources:
             description: '{{ doc("column_gender") }}'
             data_type: varchar
           - name: member_address1
-            description: '{{ doc("column_member_address1") }}'
+            description: '{{ doc("column_member_address_1") }}'
             data_type: varchar
           - name: member_address2
-            description: '{{ doc("column_member_address2") }}'
+            description: '{{ doc("column_member_address_2") }}'
             data_type: varchar
           - name: member_city
             description: '{{ doc("column_city") }}'
@@ -54,9 +54,10 @@ sources:
             data_type: varchar
           - name: client_name
             description: '{{ doc("column_client_name") }}'
+            data_type: varchar
           - name: client_id
             description: '{{ doc("column_client_id") }}'
-            data_type: varchar
+            data_type: int
             data_tests:
               - not_null
           - name: internal_filename
@@ -114,7 +115,7 @@ sources:
             description: '{{ doc("column_client_name") }}'
           - name: client_id
             description: '{{ doc("column_client_id") }}'
-            data_type: varchar
+            data_type: int
             data_tests:
               - not_null
           - name: internal_filename
@@ -180,7 +181,7 @@ sources:
             description: '{{ doc("column_client_name") }}'
           - name: client_id
             description: '{{ doc("column_client_id") }}'
-            data_type: varchar
+            data_type: int
             data_tests:
               - not_null
           - name: internal_filename
@@ -241,7 +242,7 @@ sources:
             description: '{{ doc("column_client_name") }}'
           - name: client_id
             description: '{{ doc("column_client_id") }}'
-            data_type: varchar
+            data_type: int
             data_tests:
               - not_null
           - name: internal_filename
@@ -309,7 +310,7 @@ sources:
             description: '{{ doc("column_client_name") }}'
           - name: client_id
             description: '{{ doc("column_client_id") }}'
-            data_type: varchar
+            data_type: int
             data_tests:
               - not_null
           - name: internal_filename
@@ -377,7 +378,7 @@ sources:
             description: '{{ doc("column_client_name") }}'
           - name: client_id
             description: '{{ doc("column_client_id") }}'
-            data_type: varchar
+            data_type: int
             data_tests:
               - not_null
           - name: internal_filename

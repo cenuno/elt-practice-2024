@@ -1,6 +1,6 @@
 {% macro get_client_hooli_membership_processed_columns() %}
     cast({{ clean_invalid_values("eligibility_date", ["'11/31/2023'"]) }} as date) as "eligibility_date",
-    cast("member_id" as int) as "member_id",
+    "member_id",
     "member_fullname",
     {{ clean_date_of_birth("date_of_birth") }} as "date_of_birth",
     cast("age_in_mths_no" as int) as "age_in_mths_no",

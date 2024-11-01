@@ -35,6 +35,10 @@ models:
     staging:
       client_acme:
         +schema: stg_client_acme
+      client_hooli:
+        +schema: stg_client_hooli
     intermediate:
       client_acme:
-          +schema: int_client_acme
+        +schema: int_client_acme
+      client_hooli:
+        +schema: int_client_hooli

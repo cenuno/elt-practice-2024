@@ -1,6 +1,6 @@
 {% macro get_client_hooli_claim_processed_columns() %}
     "claim_category",
-    cast("member_id" as integer) as "member_id",
+    "member_id",
     "claim_number",
     cast({{ clean_invalid_values("date_received", ["'2023-11-31'"]) }} as date) as "date_received",
     "hospital_service",
