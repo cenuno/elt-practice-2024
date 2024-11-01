@@ -19,6 +19,14 @@ env:
   COMPOSE_POSTGRES_PYTHON_PASSWORD: ${{ secrets.COMPOSE_POSTGRES_PYTHON_PASSWORD }}
   COMPOSE_POSTGRES_PYTHON_LIBPQ_CONNECTION_STRING: ${{ secrets.COMPOSE_POSTGRES_PYTHON_LIBPQ_CONNECTION_STRING }}
   COMPOSE_POSTGRES_PYTHON_CONNECTION_LIMIT: ${{ secrets.COMPOSE_POSTGRES_PYTHON_CONNECTION_LIMIT }}
+  COMPOSE_DBT_POSTGRES_USER: ${{ secrets.COMPOSE_DBT_POSTGRES_USER }}
+  COMPOSE_DBT_POSTGRES_PASSWORD: ${{ secrets.COMPOSE_DBT_POSTGRES_PASSWORD }}
+  COMPOSE_DBT_POSTGRES_SCHEMA: ${{ secrets.COMPOSE_DBT_POSTGRES_SCHEMA }}
+  COMPOSE_DBT_POSTGRES_CONNECTION_LIMIT: ${{ secrets.COMPOSE_DBT_POSTGRES_CONNECTION_LIMIT }}
+  COMPOSE_DBT_POSTGRES_READ_ROLE: ${{ secrets.COMPOSE_DBT_POSTGRES_READ_ROLE }}
+  COMPOSE_DBT_POSTGRES_WRITE_ROLE: ${{ secrets.COMPOSE_DBT_POSTGRES_WRITE_ROLE }}
+  COMPOSE_DBT_PROFILES_DIR: ${{ secrets.COMPOSE_DBT_PROFILES_DIR }}
+  COMPOSE_DBT_PROJECT_DIR: ${{ secrets.COMPOSE_DBT_PROJECT_DIR }}
 
 jobs:
   lint_and_test:
@@ -27,7 +35,7 @@ jobs:
       - name: Checkout repo and set environment variables
         uses: actions/checkout@v4
       - name: Spin up docker containers
-        run: docker compose up --build --force-recreate --detach
+        run: docker compose up --detach --build --force-recreate --remove-orphans postgres pgadmin python nginx
       - name: Wait a few seconds to allow services to be functional
         run: sleep 6s
       - name: Run linters
@@ -45,7 +53,7 @@ jobs:
           docker exec python vulture src/
           docker exec python black src/ --check
           docker exec python mypy src/elt_practice_2024/
-      - name: Run tests
+      - name: Run python tests
         run: docker exec python pytest .
       - name: Spin down docker services
         run: docker compose down

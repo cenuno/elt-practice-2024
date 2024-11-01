@@ -1,21 +1,5 @@
 ---
 services:
-  python:
-    container_name: python
-    build:
-      dockerfile: Dockerfile.python
-    environment:
-      POSTGRES_PYTHON_LIBPQ_CONNECTION_STRING: ${COMPOSE_POSTGRES_PYTHON_LIBPQ_CONNECTION_STRING}
-      POSTGRES_SCHEMA: ${COMPOSE_POSTGRES_SCHEMA}
-    restart: always
-    depends_on:
-      postgres:
-        condition: service_healthy
-    ports:
-      - 8050:8050
-    volumes:
-      - ./:/elt-practice-2024/
-      - python_volume:/project_data/
   postgres:
     container_name: postgres
     build:
@@ -26,14 +10,20 @@ services:
       PGPASSWORD: ${COMPOSE_POSTGRES_ADMIN_PASSWORD}
       PGDATABASE: ${COMPOSE_POSTGRES_DB}
       PGPORT: ${COMPOSE_POSTGRES_PORT}
-      # NOTE: variables to be used for service account role
-      POSTGRES_PYTHON_USER: ${COMPOSE_POSTGRES_PYTHON_USER}
-      POSTGRES_PYTHON_PASSWORD: ${COMPOSE_POSTGRES_PYTHON_PASSWORD}
-      POSTGRES_PYTHON_CONNECTION_LIMIT: ${COMPOSE_POSTGRES_PYTHON_CONNECTION_LIMIT}
       # NOTE: variables recommended by docker
       POSTGRES_USER: ${COMPOSE_POSTGRES_ADMIN_USER}
       POSTGRES_PASSWORD: ${COMPOSE_POSTGRES_ADMIN_PASSWORD}
       POSTGRES_DB: ${COMPOSE_POSTGRES_DB}
+      # NOTE: variables to be used for python service account role
+      POSTGRES_PYTHON_USER: ${COMPOSE_POSTGRES_PYTHON_USER}
+      POSTGRES_PYTHON_PASSWORD: ${COMPOSE_POSTGRES_PYTHON_PASSWORD}
+      POSTGRES_PYTHON_CONNECTION_LIMIT: ${COMPOSE_POSTGRES_PYTHON_CONNECTION_LIMIT}
+      # NOTE: variables to be used for dbt service account role
+      DBT_POSTGRES_USER: ${COMPOSE_DBT_POSTGRES_USER}
+      DBT_POSTGRES_PASSWORD: ${COMPOSE_DBT_POSTGRES_PASSWORD}
+      DBT_POSTGRES_CONNECTION_LIMIT: ${COMPOSE_DBT_POSTGRES_CONNECTION_LIMIT}
+      DBT_POSTGRES_READ_ROLE: ${COMPOSE_DBT_POSTGRES_READ_ROLE}
+      DBT_POSTGRES_WRITE_ROLE: ${COMPOSE_DBT_POSTGRES_WRITE_ROLE}
     ports:
       - ${COMPOSE_POSTGRES_PORT}:${COMPOSE_POSTGRES_PORT}
     restart: always
@@ -59,9 +49,66 @@ services:
         condition: service_healthy
     volumes:
       - pgadmin_volume:/var/lib/pgadmin
-
-
+  python:
+    container_name: python
+    build:
+      dockerfile: Dockerfile.python
+    environment:
+      POSTGRES_PYTHON_LIBPQ_CONNECTION_STRING: ${COMPOSE_POSTGRES_PYTHON_LIBPQ_CONNECTION_STRING}
+      DBT_POSTGRES_SCHEMA: ${COMPOSE_DBT_POSTGRES_SCHEMA}
+      DBT_PROFILES_DIR: ${COMPOSE_DBT_PROFILES_DIR}
+      DBT_POSTGRES_USER: ${COMPOSE_DBT_POSTGRES_USER}
+      DBT_POSTGRES_PASSWORD: ${COMPOSE_DBT_POSTGRES_PASSWORD}
+      DBT_POSTGRES_DB: ${COMPOSE_POSTGRES_DB}
+      DBT_POSTGRES_PORT: ${COMPOSE_POSTGRES_PORT}
+      DBT_POSTGRES_HOST: ${COMPOSE_POSTGRES_HOST}
+      DBT_POSTGRES_CONNECTION_LIMIT: ${COMPOSE_DBT_POSTGRES_CONNECTION_LIMIT}
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "python3 --version || exit 1"]
+      interval: 2s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./:/elt-practice-2024/
+      - python_volume:/project_data/
+  dbt:
+    container_name: dbt
+    build:
+      dockerfile: Dockerfile.dbt
+    environment:
+      DBT_POSTGRES_SCHEMA: ${COMPOSE_DBT_POSTGRES_SCHEMA}
+      DBT_POSTGRES_USER: ${COMPOSE_DBT_POSTGRES_USER}
+      DBT_POSTGRES_PASSWORD: ${COMPOSE_DBT_POSTGRES_PASSWORD}
+      DBT_POSTGRES_DB: ${COMPOSE_POSTGRES_DB}
+      DBT_POSTGRES_PORT: ${COMPOSE_POSTGRES_PORT}
+      DBT_POSTGRES_HOST: ${COMPOSE_POSTGRES_HOST}
+      DBT_POSTGRES_CONNECTION_LIMIT: ${COMPOSE_DBT_POSTGRES_CONNECTION_LIMIT}
+    healthcheck:
+      test: ["CMD-SHELL", "dbt debug || exit 1"]
+      interval: 2s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      python:
+        condition: service_healthy
+    volumes:
+      - ./src/elt_dbt/:/usr/app
+      - ./src/elt_dbt/profiles.yml:/root/.dbt/profiles.yml
+  nginx:
+    container_name: nginx
+    build:
+      dockerfile: Dockerfile.nginx
+    depends_on:
+      python:
+        condition: service_healthy
+    ports:
+      - 3000:80
 volumes:
   python_volume:
   postgres_volume:
   pgadmin_volume:
+  dbt_volume:

@@ -1,0 +1,246 @@
+---
+version: 2
+models:
+  - name: int_client_acme__member_claim
+    description: '{{ doc("table_int_client_acme__member_claim") }}'
+
+    columns:
+      - name: member_id
+        description: '{{ doc("column_member_id") }}'
+        data_type: int
+        constraints:
+          - type: not_null
+          - type: unique
+      - name: membership_end_date
+        description: '{{ doc("column_membership_end_date") }}'
+        data_type: date
+      - name: phone_number
+        description: '{{ doc("column_phone_number") }}'
+        data_type: varchar
+      - name: state
+        description: '{{ doc("column_state") }}'
+        data_type: varchar
+      - name: zip
+        description: '{{ doc("column_zip") }}'
+        data_type: varchar
+      - name: client_id
+        description: '{{ doc("column_client_id") }}'
+        data_type: varchar
+      - name: client_name
+        description: '{{ doc("column_client_name") }}'
+        data_type: varchar
+      - name: member_relation_name
+        description: '{{ doc("column_relation_name")}}'
+        data_type: varchar
+      - name: member_modified_on
+        description: '{{ doc("column_modified_on") }}'
+        data_type: timestamp with time zone
+      - name: claim_number
+        description: '{{ doc("column_claim_number") }}'
+        data_type: varchar
+        constraints:
+          - type: unique
+      - name: has_claim
+        description: '{{ doc("column_has_claim")}}'
+        data_type: boolean
+      - name: date_received
+        description: '{{ doc("column_date_received") }}'
+        data_type: date
+      - name: year_date_received
+        description: '{{ doc("column_year_date_received") }}'
+        data_type: numeric
+      - name: quarter_date_received
+        description: '{{ doc("column_quarter_date_received") }}'
+        data_type: numeric
+      - name: month_date_received
+        description: '{{ doc("column_month_date_received") }}'
+        data_type: numeric
+      - name: week_date_received
+        description: '{{ doc("column_week_date_received") }}'
+        data_type: numeric
+      - name: dow_date_received
+        description: '{{ doc("column_dow_date_received") }}'
+        data_type: numeric
+      - name: claim_category
+        description: '{{ doc("column_claim_category") }}'
+        data_type: varchar
+      - name: vendor
+        description: '{{ doc("column_vendor") }}'
+        data_type: varchar
+      - name: hospital_service
+        description: '{{ doc("column_hospital_service") }}'
+        data_type: varchar
+      - name: coding_system
+        description: '{{ doc("column_coding_system") }}'
+        data_type: varchar
+      - name: code
+        description: '{{ doc("column_coding_system") }}'
+        data_type: varchar
+      - name: primary_diagnosis
+        description: '{{ doc("column_primary_diagnosis") }}'
+        data_type: varchar
+      - name: total_billed
+        description: '{{ doc("column_total_billed") }}'
+        data_type: decimal
+      - name: processing_status
+        description: '{{ doc("column_processing_status") }}'
+        data_type: varchar
+      - name: claim_relation_name
+        description: '{{ doc("column_relation_name")}}'
+        data_type: varchar
+      - name: claim_modified_on
+        description: '{{ doc("column_modified_on") }}'
+        data_type: timestamp with time zone
+
+  - name: int_client_acme__claim
+    description: '{{ doc("table_int_client_acme__claim") }}'
+
+    config:
+      contract:
+        enforced: true
+
+    constraints:
+      - type: primary_key
+        columns: [claim_number]
+
+    columns:
+      - name: member_id
+        description: '{{ doc("column_member_id") }}'
+        data_type: int
+        constraints:
+          - type: not_null
+      - name: client_id
+        description: '{{ doc("column_client_id") }}'
+        data_type: varchar
+      - name: claim_number
+        description: '{{ doc("column_claim_number") }}'
+        data_type: varchar
+        constraints:
+          - type: not_null
+          - type: unique
+      - name: date_received
+        description: '{{ doc("column_date_received") }}'
+        data_type: date
+      - name: claim_category
+        description: '{{ doc("column_claim_category") }}'
+        data_type: varchar
+      - name: vendor
+        description: '{{ doc("column_vendor") }}'
+        data_type: varchar
+      - name: hospital_service
+        description: '{{ doc("column_hospital_service") }}'
+        data_type: varchar
+      - name: coding_system
+        description: '{{ doc("column_coding_system") }}'
+        data_type: varchar
+      - name: code
+        description: '{{ doc("column_coding_system") }}'
+        data_type: varchar
+      - name: primary_diagnosis
+        description: '{{ doc("column_primary_diagnosis") }}'
+        data_type: varchar
+      - name: total_billed
+        description: '{{ doc("column_total_billed") }}'
+        data_type: decimal(20, 10)
+      - name: processing_status
+        description: '{{ doc("column_processing_status") }}'
+        data_type: varchar
+      - name: client_name
+        description: '{{ doc("column_client_name") }}'
+        data_type: varchar
+      - name: client_id
+        description: '{{ doc("column_client_id") }}'
+        data_type: int
+      - name: internal_filename
+        description: '{{ doc("column_internal_filename") }}'
+        data_type: varchar
+      - name: external_filename
+        description: '{{ doc("column_external_filename") }}'
+        data_type: varchar
+      - name: created_on
+        description: '{{ doc("column_created_on") }}'
+        data_type: timestamp with time zone
+      - name: modified_on
+        description: '{{ doc("column_modified_on") }}'
+        data_type: timestamp with time zone
+      - name: relation_name
+        description: '{{ doc("column_relation_name") }}'
+        data_type: varchar
+
+  - name: int_client_acme__member
+    description: '{{ doc("table_int_client_acme__member") }}'
+
+    config:
+      contract:
+        enforced: true
+
+    constraints:
+      - type: primary_key
+        columns: [member_id]
+
+    columns:
+      - name: member_id
+        description: '{{ doc("column_member_id") }}'
+        data_type: int
+        constraints:
+          - type: not_null
+          - type: unique
+      - name: client_id
+        description: '{{ doc("column_client_id") }}'
+        data_type: int
+        constraints:
+          - type: not_null
+      - name: membership_end_date
+        description: '{{ doc("column_membership_end_date") }}'
+        data_type: date
+      - name: member_first_name
+        description: '{{ doc("column_member_first_name") }}'
+        data_type: varchar
+      - name: member_middle_name
+        description: '{{ doc("column_member_middle_name") }}'
+        data_type: varchar
+      - name: member_last_name
+        description: '{{ doc("column_member_last_name") }}'
+        data_type: varchar
+      - name: gender
+        description: '{{ doc("column_gender") }}'
+        data_type: varchar
+      - name: date_of_birth
+        description: '{{ doc("column_date_of_birth") }}'
+        data_type: date
+      - name: address
+        description: '{{ doc("column_address") }}'
+        data_type: varchar
+      - name: city
+        description: '{{ doc("column_city") }}'
+        data_type: varchar
+      - name: state
+        description: '{{ doc("column_state") }}'
+        data_type: varchar
+      - name: zip
+        description: '{{ doc("column_zip") }}'
+        data_type: varchar
+      - name: phone_number
+        description: '{{ doc("column_phone_number") }}'
+        data_type: varchar
+      - name: ethnicity
+        description: '{{ doc("column_ethnicity") }}'
+        data_type: varchar
+      - name: client_name
+        description: '{{ doc("column_client_name") }}'
+        data_type: varchar
+      - name: internal_filename
+        description: '{{ doc("column_internal_filename") }}'
+        data_type: varchar
+      - name: external_filename
+        description: '{{ doc("column_external_filename") }}'
+        data_type: varchar
+      - name: created_on
+        description: '{{ doc("column_created_on") }}'
+        data_type: timestamp with time zone
+      - name: modified_on
+        description: '{{ doc("column_modified_on") }}'
+        data_type: timestamp with time zone
+      - name: relation_name
+        description: '{{ doc("column_relation_name") }}'
+        data_type: varchar

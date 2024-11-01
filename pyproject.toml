@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "elt-practice-2024"
-version = "0.6.0"
+version = "0.7.0"
 description = "Practice repo for learning about ELT in 2024"
 authors = ["Cristian Nuno <cnuno2@illinois.edu>"]
 readme = "README.md"
@@ -28,6 +28,9 @@ types-requests = "2.32.0.20240712"
 openpyxl = "3.1.3"
 pandas-stubs = "1.2.0.40"
 types-psycopg2 = "2.9.21.20240819"
+sqlfluff = "3.2.0"
+shandy-sqlfmt = "0.23.2"
+sqlfluff-templater-dbt = "3.2.0"
 
 [tool.poetry.plugins."poetry.application.plugin"]
 export = "poetry_plugin_export.plugins:ExportApplicationPlugin"
@@ -81,3 +84,85 @@ module = [
     "data_ingestion_utils.*",
 ]
 ignore_missing_imports = true
+
+
+[tool.sqlfluff.core]
+templater = "dbt"
+sql_file_exts = ".sql,.sql.j2,.dml,.ddl"
+ignore_paths = [
+    "src/elt_dbt/dbt_packages",
+    "src/elt_dbt/models/example",
+    "src/elt_dbt/target",
+]
+# Supported dialects https://docs.sqlfluff.com/en/stable/perma/dialects.html
+# Or run 'sqlfluff dialects'
+dialect = "postgres"
+
+# Comma separated list of rules to exclude, or None
+# See https://docs.sqlfluff.com/en/stable/perma/rule_disabling.html
+# AM04 (ambiguous.column_count) and ST06 (structure.column_order) are
+# two of the more controversial rules included to illustrate usage.
+exclude_rules = [
+    "ambiguous.column_count",
+    "structure.column_order",
+    "LT02",
+]
+
+# The standard max_line_length is 80 in line with the convention of
+# other tools and several style guides. Many projects however prefer
+# something a little longer.
+# Set to zero or negative to disable checks.
+max_line_length = 120
+
+# use tabs for indents
+indent_unit = "tab"
+comma_style = "trailing"
+
+# CPU processes to use while linting.
+# The default is "single threaded" to allow easy debugging, but this
+# is often undesirable at scale.
+# If positive, just implies number of processes.
+# If negative or zero, implies number_of_cpus - specified_number.
+# e.g. -1 means use all processors but one. 0 means all cpus.
+processes = 1
+
+# If using the dbt templater, we recommend setting the project dir.
+[tool.sqlfluff.templater.dbt]
+project_dir = "src/elt_dbt"
+profiles_dir = "src/elt_dbt"
+
+[tool.sqlfluff.templater.jinja]
+apply_dbt_builtins = true
+load_macros_from_path = "src/elt_dbt/macros"
+
+[tool.sqlfluff.indentation]
+# While implicit indents are not enabled by default. Many of the
+# SQLFluff maintainers do use them in their projects.
+allow_implicit_indents = false
+
+[tool.sqlfluff.rules.aliasing.length]
+min_alias_length = 3
+
+# The default configuration for capitalisation rules is "consistent"
+# which will auto-detect the setting from the rest of the file. This
+# is less desirable in a new project and you may find this (slightly
+# more strict) setting more useful.
+# Typically we find users rely on syntax highlighting rather than
+# capitalisation to distinguish between keywords and identifiers.
+# Clearly, if your organisation has already settled on uppercase
+# formatting for any of these syntax elements then set them to "upper".
+# See https://stackoverflow.com/questions/608196/why-should-i-capitalize-my-sql-keywords-is-there-a-good-reason
+[tool.sqlfluff.rules.capitalisation.keywords]
+capitalisation_policy = "lower"
+[tool.sqlfluff.rules.capitalisation.identifiers]
+extended_capitalisation_policy = "lower"
+[tool.sqlfluff.rules.capitalisation.functions]
+extended_capitalisation_policy = "lower"
+[tool.sqlfluff.rules.capitalisation.literals]
+capitalisation_policy = "lower"
+[tool.sqlfluff.rules.capitalisation.types]
+extended_capitalisation_policy = "lower"
+
+[tool.sqlfmt]
+line_length = 120
+dialect = "polyglot"

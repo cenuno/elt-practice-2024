@@ -1,0 +1,126 @@
+---
+version: 2
+models:
+  - name: stg_client_acme__stacked_claims
+    description: '{{ doc("view_stg_client_acme__stacked_claims") }}'
+    columns:
+      - name: member_id
+        description: '{{ doc("column_member_id") }}'
+        data_type: int
+      - name: client_id
+        description: '{{ doc("column_client_id") }}'
+        data_type: varchar
+      - name: claim_number
+        description: '{{ doc("column_claim_number") }}'
+        data_type: varchar
+      - name: date_received
+        description: '{{ doc("column_date_received") }}'
+        data_type: date
+      - name: claim_category
+        description: '{{ doc("column_claim_category") }}'
+        data_type: varchar
+      - name: vendor
+        description: '{{ doc("column_vendor") }}'
+        data_type: varchar
+      - name: hospital_service
+        description: '{{ doc("column_hospital_service") }}'
+        data_type: varchar
+      - name: coding_system
+        description: '{{ doc("column_coding_system") }}'
+        data_type: varchar
+      - name: code
+        description: '{{ doc("column_coding_system") }}'
+        data_type: varchar
+      - name: primary_diagnosis
+        description: '{{ doc("column_primary_diagnosis") }}'
+        data_type: varchar
+      - name: total_billed
+        description: '{{ doc("column_total_billed") }}'
+        data_type: decimal
+      - name: processing_status
+        description: '{{ doc("column_processing_status") }}'
+        data_type: varchar
+      - name: client_name
+        description: '{{ doc("column_client_name") }}'
+      - name: client_id
+        description: '{{ doc("column_client_id") }}'
+        data_type: varchar
+      - name: internal_filename
+        description: '{{ doc("column_internal_filename") }}'
+        data_type: varchar
+      - name: external_filename
+        description: '{{ doc("column_external_filename") }}'
+        data_type: varchar
+      - name: created_on
+        description: '{{ doc("column_created_on") }}'
+        data_type: varchar
+      - name: modified_on
+        description: '{{ doc("column_modified_on") }}'
+        data_type: varchar
+      - name: relation_name
+        description: '{{ doc("column_relation_name") }}'
+        data_type: varchar
+
+  - name: stg_client_acme__stacked_members
+    description: '{{ doc("view_stg_client_acme__stacked_members") }}'
+    columns:
+      - name: member_id
+        description: '{{ doc("column_member_id") }}'
+        data_type: int
+      - name: client_id
+        description: '{{ doc("column_client_id") }}'
+        data_type: int
+      - name: membership_end_date
+        description: '{{ doc("column_membership_end_date") }}'
+        data_type: date
+      - name: member_first_name
+        description: '{{ doc("column_member_first_name") }}'
+        data_type: varchar
+      - name: member_middle_name
+        description: '{{ doc("column_member_middle_name") }}'
+        data_type: varchar
+      - name: member_last_name
+        description: '{{ doc("column_member_last_name") }}'
+        data_type: varchar
+      - name: gender
+        description: '{{ doc("column_gender") }}'
+        data_type: varchar
+      - name: date_of_birth
+        description: '{{ doc("column_date_of_birth") }}'
+        data_type: date
+      - name: address
+        description: '{{ doc("column_address") }}'
+        data_type: varchar
+      - name: city
+        description: '{{ doc("column_city") }}'
+        data_type: varchar
+      - name: state
+        description: '{{ doc("column_state") }}'
+        data_type: varchar
+      - name: zip
+        description: '{{ doc("column_zip") }}'
+        data_type: varchar
+      - name: phone_number
+        description: '{{ doc("column_phone_number") }}'
+        data_type: varchar
+      - name: ethnicity
+        description: '{{ doc("column_ethnicity") }}'
+        data_type: varchar
+      - name: client_name
+        description: '{{ doc("column_client_name") }}'
+        data_type: varchar
+      - name: internal_filename
+        description: '{{ doc("column_internal_filename") }}'
+        data_type: varchar
+      - name: external_filename
+        description: '{{ doc("column_external_filename") }}'
+        data_type: varchar
+      - name: created_on
+        description: '{{ doc("column_created_on") }}'
+        data_type: timestamp with time zone
+      - name: modified_on
+        description: '{{ doc("column_modified_on") }}'
+        data_type: timestamp with time zone
+      - name: relation_name
+        description: '{{ doc("column_relation_name") }}'
+        data_type: varchar

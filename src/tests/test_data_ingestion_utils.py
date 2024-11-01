@@ -260,3 +260,5 @@ def test_copy_file_into_table(tmp_path):
             results = curs.fetchall()[0][0]
             curs.close()
             assert results > 0, "No data exists in the table"
+    # NOTE: drop the schema and all objects
+    drop_schema(schema_name=schema_name, conn=conn, cascade=True)
