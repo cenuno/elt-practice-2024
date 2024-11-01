@@ -54,7 +54,6 @@ jobs:
           docker exec python black src/ --check
           docker exec python mypy src/elt_practice_2024/
           docker exec python sqlfluff lint src/elt_dbt/
-          docker compose run --rm dbt clean
           docker compose run --rm dbt deps
           docker compose run --rm dbt parse
       - name: Run python tests
