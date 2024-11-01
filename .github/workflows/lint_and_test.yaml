@@ -27,7 +27,7 @@ jobs:
       - name: Checkout repo and set environment variables
         uses: actions/checkout@v4
       - name: Spin up docker containers
-        run: docker compose up --build --force-recreate --detach
+        run: docker compose up --detach --build --force-recreate --remove-orphans postgres pgadmin python nginx
       - name: Wait a few seconds to allow services to be functional
         run: sleep 6s
       - name: Run linters
@@ -46,7 +46,10 @@ jobs:
           docker exec python black src/ --check
           docker exec python mypy src/elt_practice_2024/
           docker exec python sqlfluff lint src/elt_dbt/
-      - name: Run tests
+          docker compose run --rm dbt clean
+          docker compose run --rm dbt deps
+          docker compose run --rm dbt parse
+      - name: Run python tests
         run: docker exec python pytest .
       - name: Spin down docker services
         run: docker compose down
